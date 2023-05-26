@@ -8,10 +8,20 @@
 *.ipr
 .vscode/
 *.code-workspace
+*.launch
+*.sublime-workspace
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+.history/*
 target/
 
 # Compiled class files
 *.class
+target/
+api/target/
 
 # Package files
 *.jar
@@ -39,6 +49,15 @@ tmp
 data/*
 *.swp
 dist
+
+# Miscellaneous
+/.angular/cache
+.sass-cache/
+/connect.lock
+/coverage
+/libpeerconnection.log
+testem.log
+/typings
 
 # Terraform files
 **/.terraform/*
