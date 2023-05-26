@@ -1,0 +1,96 @@
+# Copyright 2023 Google LLC
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+apiVersion: batch/v1
+kind: Job
+metadata:
+  namespace: '{{ .Values.namespace }}'
+  name: '{{ .Values.project_id }}-lds-job-{{ .Values.region }}'
+  labels:
+    operator: '{{ .Values.operator }}'
+spec:
+  backoffLimit: 1
+  template:
+    spec:
+      serviceAccountName: '{{ .Values.k8s_service_account_name }}'
+      initContainers:
+      - name: reset-data-job
+        image: 'curlimages/curl'
+        resources:
+          requests:
+            cpu: "2000m"
+            memory: "2Gi"
+        command: 
+        - /bin/sh
+        - -c       
+        - |
+            printenv | while read -r line; do
+              name=$(echo "$line" | cut -d '=' -f 1)
+              value=$(echo "$line" | cut -d '=' -f 2-)
+              if [ "$name" = "$LDS_SERVER" ]; then
+                echo "Variable: $name"
+                echo "Value: $value"
+                curl -s -X DELETE $value:80/api/reset
+                echo "----------------------"
+              fi
+            done
+        env:
+          - name: LDS_SERVER
+            value: '{{ .Values.project_id | upper | replace "-" "_" }}_LDS_SVC_{{ .Values.region | upper | replace "-" "_"}}_SERVICE_HOST'
+      - name: migration-data-job
+        image: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+        resources:
+          requests:
+            cpu: "2000m"
+            memory: "2Gi"
+        command: 
+        - /bin/sh
+        - -c       
+        - |
+            printenv | while read -r line; do
+              name=$(echo "$line" | cut -d '=' -f 1)
+              value=$(echo "$line" | cut -d '=' -f 2-)
+              if [ "$name" = "$LDS_SERVER" ]; then
+                echo "Variable: $name"
+                echo "Value: $value"
+                echo ${LDS_INITIALIZATION_BUCKET_NAME}
+                echo ${LDS_INITIALIZATION_ARCHIVE_FILE_NAME}
+
+                uri=${value}:80
+                echo $uri
+                
+                gsutil cp gs://${LDS_INITIALIZATION_BUCKET_NAME}/execution.sh .
+                gsutil cp gs://${LDS_INITIALIZATION_BUCKET_NAME}/upload.sh .
+                bash execution.sh $LDS_INITIALIZATION_BUCKET_NAME $LDS_INITIALIZATION_ARCHIVE_FILE_NAME $uri
+                echo "----------------------"
+              fi
+            done
+
+        env:
+          - name: LDS_SERVER
+            value: '{{ .Values.project_id | upper | replace "-" "_" }}_LDS_SVC_{{ .Values.region | upper | replace "-" "_"}}_SERVICE_HOST'
+          - name: LDS_INITIALIZATION_BUCKET_NAME
+            value: '{{ .Values.lds_initialization_bucket_name }}'
+          - name: LDS_INITIALIZATION_ARCHIVE_FILE_NAME
+            value: '{{ .Values.lds_initialization_archive_file_name }}'
+      containers:
+      - name: job-workflow
+        image: 'busybox'
+        resources:
+          requests:
+            cpu: "2000m"
+            memory: "2Gi"
+        command: ["echo", "job completed!"]
+      restartPolicy: Never
+      
