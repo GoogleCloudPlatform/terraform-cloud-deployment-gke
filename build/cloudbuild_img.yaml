@@ -18,35 +18,41 @@ steps:
     entrypoint: 'gcloud'
     args: ['auth', 'configure-docker', '-q']
 
-  - id: clone-repo
-    name: 'gcr.io/cloud-builders/git'
-    args: ['clone', '-b', 'main', 'https://github.com/GoogleCloudPlatform/${_APP_REPO_NAME}.git']
-
-  - id: build-and-push-backend-docker-image
-    dir: ${_APP_REPO_NAME}/api
+  - id: mvn-install
+    dir: api
+    volumes:
+      - name: 'm2'
+        path: /root/.m2
     name: 'maven'
     entrypoint: 'mvn'
-    waitFor: ['clone-repo']
-    env: ['LDS_IMAGE_NAME=gcr.io/${PROJECT_ID}/${_BACKEND_IMAGE_REPO_NAME}:${_IMAGE_TAG}']
-    args: ['compile', 'com.google.cloud.tools:jib-maven-plugin:3.3.1:build']
+    args: ['install']
 
+  - id: build-and-push-api-docker-image
+    dir: api
+    volumes:
+      - name: 'm2'
+        path: /root/.m2
+    name: 'maven'
+    entrypoint: 'mvn'
+    env: ['LDS_IMAGE_NAME=gcr.io/${PROJECT_ID}/${_BACKEND_IMAGE_REPO_NAME}:${_BACKEND_IMAGE_TAG}']
+    args: ['compile', 'com.google.cloud.tools:jib-maven-plugin:3.3.1:build']
+  
   - id: build-frontend-docker-image
-    dir: ${_APP_REPO_NAME}/frontend
-    waitFor: ['clone-repo']
+    dir: frontend
     name: 'gcr.io/cloud-builders/docker'
-    args: ['build', '-t', 'gcr.io/${PROJECT_ID}/${_FRONTEND_IMAGE_REPO_NAME}:${_IMAGE_TAG}', '.']
+    args: ['build', '-t', 'gcr.io/${PROJECT_ID}/${_FRONTEND_IMAGE_REPO_NAME}:${_FRONTEND_IMAGE_TAG}', '.']
 
   - id: push-frontend-docker-image
-    dir: ${_APP_REPO_NAME}/frontend
+    dir: frontend
     waitFor: ['build-frontend-docker-image']
     name: 'gcr.io/cloud-builders/docker'
-    args: ['push', 'gcr.io/${PROJECT_ID}/${_FRONTEND_IMAGE_REPO_NAME}:${_IMAGE_TAG}']
+    args: ['push', 'gcr.io/${PROJECT_ID}/${_FRONTEND_IMAGE_REPO_NAME}:${_FRONTEND_IMAGE_TAG}']
 
 substitutions:
-  _APP_REPO_NAME: 'app-large-data-sharing-java'
-  _BACKEND_IMAGE_REPO_NAME: 'hsa-lds-java-backend'
-  _FRONTEND_IMAGE_REPO_NAME: 'hsa-lds-java-frontend'
-  _IMAGE_TAG: 'latest'
+  _BACKEND_IMAGE_REPO_NAME: 'jss-cd-gke-backend'
+  _FRONTEND_IMAGE_REPO_NAME: 'jss-cd-gke-frontend'
+  _BACKEND_IMAGE_TAG: 'latest'
+  _FRONTEND_IMAGE_TAG: 'v2' 
 
 options:
   machineType: 'E2_HIGHCPU_8'

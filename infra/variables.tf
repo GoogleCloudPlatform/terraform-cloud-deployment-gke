@@ -55,13 +55,13 @@ variable "bucket_location" {
 variable "lds_server_image" {
   description = "Docker image for backend"
   type        = string
-  default     = "gcr.io/hsa-resources-public/hsa-lds-java-backend:latest"
+  default     = "gcr.io/aemon-projects-dev-000/jss-cd-gke-backend:latest"
 }
 
 variable "lds_client_image" {
   description = "Docker image for frontend"
   type        = string
-  default     = "gcr.io/hsa-resources-public/hsa-lds-java-frontend:latest"
+  default     = "gcr.io/aemon-projects-dev-000/jss-cd-gke-frontend:v1"
 }
 
 variable "init" {
