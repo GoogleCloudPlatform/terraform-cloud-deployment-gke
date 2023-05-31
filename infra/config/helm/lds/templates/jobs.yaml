@@ -29,8 +29,8 @@ spec:
         image: 'curlimages/curl'
         resources:
           requests:
-            cpu: "2000m"
-            memory: "2Gi"
+            cpu: "500m"
+            memory: "500Mi"
         command: 
         - /bin/sh
         - -c       
@@ -52,8 +52,8 @@ spec:
         image: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
         resources:
           requests:
-            cpu: "2000m"
-            memory: "2Gi"
+            cpu: "500m"
+            memory: "500Mi"
         command: 
         - /bin/sh
         - -c       
@@ -89,8 +89,8 @@ spec:
         image: 'busybox'
         resources:
           requests:
-            cpu: "2000m"
-            memory: "2Gi"
+            cpu: "250m"
+            memory: "128Mi"
         command: ["echo", "job completed!"]
       restartPolicy: Never
       

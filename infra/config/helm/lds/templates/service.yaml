@@ -18,7 +18,7 @@ metadata:
   namespace: '{{ .Values.namespace }}'
   name: '{{ .Values.project_id }}-lds-svc-{{ .Values.region }}'
   annotations:
-    cloud.google.com/neg: '{"exposed_ports": {"80":{"name": "cloud-deployment-java"}}}'
+    cloud.google.com/neg: '{"exposed_ports": {"80":{"name": "cloud-deployment-gke"}}}'
   labels:
     operator: '{{ .Values.operator }}'
 spec:

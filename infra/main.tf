@@ -45,31 +45,24 @@ data "google_client_config" "default" {
 }
 
 module "storage" {
-  depends_on = [
-    module.project_services,
-  ]
   source = "./modules/storage"
 
-  project_id = var.project_id
+  project_id = data.google_project.project.project_id
   location   = var.bucket_location
   labels     = var.labels
-  name       = "cloud-deployment-resource-${data.google_project.project.number}-java"
+  name       = "cloud-deployment-gke-resource-${data.google_project.project.number}"
 }
 
 module "networking" {
-  depends_on = [
-    module.project_services,
-  ]
   source = "./modules/networking"
 
-  project_id = var.project_id
+  project_id = data.google_project.project.project_id
 }
 
 locals {
   resource_path = "resource"
-  firestore     = length(var.firestore_collection_id) == 0 ? "cloud-deployment-java" : var.firestore_collection_id
   collection_fields = {
-    "${local.firestore}" = [
+    "${var.firestore_collection_id}-gke" = [
       {
         field_path   = "tags"
         array_config = "CONTAINS"
@@ -99,12 +92,9 @@ locals {
 }
 
 module "firestore" {
-  depends_on = [
-    module.project_services
-  ]
   source = "./modules/firestore"
 
-  project_id        = var.project_id
+  project_id        = data.google_project.project.project_id
   init              = var.init
   collection_fields = local.collection_fields
 }
@@ -115,12 +105,12 @@ module "kubernetes" {
   ]
   source = "./modules/kubernetes"
 
-  cluster_name           = "cloud-deployment-java"
+  cluster_name           = "cloud-deployment-gke"
   region                 = var.region
   zones                  = var.zones
   network_self_link      = module.networking.vpc_network_self_link
   project_id             = data.google_project.project.project_id
-  gcp_service_account_id = "cloud-deployment-java"
+  gcp_service_account_id = "cloud-deployment-gke"
   gcp_service_account_iam_roles = [
     "roles/storage.objectAdmin",
     "roles/datastore.user",
@@ -133,25 +123,19 @@ module "kubernetes" {
 }
 
 module "base_helm" {
-  depends_on = [
-    module.project_services,
-  ]
   source = "./modules/helm"
 
   chart_folder_name = "base"
-  region            = "us-west1"
   entries           = local.base_entries
 }
 
 module "helm" {
   depends_on = [
-    module.project_services,
     module.base_helm,
   ]
   source = "./modules/helm"
 
   chart_folder_name = "lds"
-  region            = "us-west1"
   entries = concat(local.base_entries,
     [
       {
@@ -160,9 +144,9 @@ module "helm" {
       },
       {
         name  = "region"
-        value = "us-west1"
+        value = var.region
       },
-      // lds_server
+      # lds_server
       {
         name  = "lds_server_image"
         value = var.lds_server_image
@@ -181,19 +165,19 @@ module "helm" {
       },
       {
         name  = "config_maps.lds_firestore"
-        value = "${local.firestore}"
+        value = "${var.firestore_collection_id}-gke" # equals to local.collection_fields's key
       },
-      // lds_client
+      # lds_client
       {
         name  = "lds_client_image"
         value = var.lds_client_image
       },
-      // job
+      # job
       {
         name  = "lds_initialization_bucket_name"
         value = var.lds_initialization_bucket_name
       },
-       {
+      {
         name  = "lds_initialization_archive_file_name"
         value = var.lds_initialization_archive_file_name
       },
@@ -203,22 +187,17 @@ module "helm" {
 
 data "google_compute_network_endpoint_group" "cloud_deployment" {
   depends_on = [
-    module.project_services,
     module.helm,
   ]
-  project = var.project_id
-  name    = "cloud-deployment-java"
+  project = data.google_project.project.project_id
+  name    = "cloud-deployment-gke"
   zone    = var.zones[0]
 }
 
 module "load_balancer" {
-  depends_on = [
-    module.project_services,
-    module.helm,
-  ]
   source = "./modules/load-balancer"
 
-  project_id                    = var.project_id
+  project_id                    = data.google_project.project.project_id
   region                        = var.region
   bucket_name                   = module.storage.bucket_name
   k8s_network_endpoint_group_id = data.google_compute_network_endpoint_group.cloud_deployment.id

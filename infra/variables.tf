@@ -86,12 +86,12 @@ variable "labels" {
   type        = map(string)
   description = "A map of key/value label pairs to assign to the resources."
   default = {
-    app = "cloud-deployment-java"
+    app = "cloud-deployment-gke"
   }
 }
 
 variable "firestore_collection_id" {
   description = "Firestore collection id"
   type        = string
-  default     = "cloud-deployment-java"
+  default     = "fileMetadata-cdn"
 }

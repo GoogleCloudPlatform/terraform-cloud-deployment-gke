@@ -16,7 +16,7 @@
 
 resource "google_compute_backend_bucket" "cdn" {
   project     = var.project_id
-  name        = "cloud-deployment-cdn-java"
+  name        = "cloud-deployment-gke-cdn"
   bucket_name = var.bucket_name
   enable_cdn  = true
   cdn_policy {
@@ -36,14 +36,16 @@ resource "google_compute_backend_bucket" "cdn" {
 }
 
 resource "google_compute_health_check" "cloud_deployment" {
-  name = "cloud-deployment-http-health-check"
+  project = var.project_id
+  name    = "cloud-deployment-gke-http-health-check"
   http_health_check {
     port_specification = "USE_SERVING_PORT"
   }
 }
 
 resource "google_compute_backend_service" "cloud_deployment" {
-  name                  = "cloud-deployment-java"
+  project               = var.project_id
+  name                  = "cloud-deployment-gke"
   load_balancing_scheme = "EXTERNAL"
   backend {
     balancing_mode        = "RATE"
@@ -57,7 +59,7 @@ resource "google_compute_backend_service" "cloud_deployment" {
 
 resource "google_compute_url_map" "cloud_deployment" {
   project         = var.project_id
-  name            = "cloud-deployment-lb-java"
+  name            = "cloud-deployment-gke-lb"
   default_service = google_compute_backend_service.cloud_deployment.id
   host_rule {
     path_matcher = "app"
@@ -79,7 +81,7 @@ resource "google_compute_url_map" "cloud_deployment" {
 
 resource "google_compute_target_http_proxy" "cloud_deployment" {
   project = var.project_id
-  name    = "cloud-deployment-proxy-java"
+  name    = "cloud-deployment-gke-proxy"
   url_map = google_compute_url_map.cloud_deployment.self_link
 }
 
@@ -94,7 +96,7 @@ resource "google_compute_global_forwarding_rule" "cloud_deployment" {
 
 resource "google_compute_global_address" "cloud_deployment" {
   project      = var.project_id
-  name         = "cloud-deployment-external-ip-java"
+  name         = "cloud-deployment-gke-external-ip"
   ip_version   = "IPV4"
   address_type = "EXTERNAL"
 }

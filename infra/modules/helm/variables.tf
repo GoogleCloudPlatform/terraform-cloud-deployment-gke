@@ -19,11 +19,6 @@ variable "chart_folder_name" {
   type        = string
 }
 
-variable "region" {
-  description = "The region to host the k8s cluster"
-  type        = string
-}
-
 variable "entries" {
   description = "custom values to be merge into values yaml."
   type = list(object({

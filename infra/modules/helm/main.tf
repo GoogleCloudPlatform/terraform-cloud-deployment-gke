@@ -29,7 +29,7 @@ resource "random_id" "code" {
 }
 
 resource "helm_release" "manifest" {
-  name  = "${local.helm_release_name}-${var.region}-${random_id.code.hex}"
+  name  = "${local.helm_release_name}-${random_id.code.hex}"
   chart = "${path.module}/../../config/helm/${var.chart_folder_name}"
   values = [
     file("${path.module}/../../config/helm/${var.chart_folder_name}/values.yaml"),

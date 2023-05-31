@@ -41,8 +41,8 @@ spec:
         image: '{{ .Values.lds_server_image }}'
         resources:
           requests:
-            cpu: "2000m"
-            memory: 2Gi
+            cpu: "500m"
+            memory: "500Mi"
         ports:
         - containerPort: {{ .Values.config_maps.lds_rest_port }}
         env:
@@ -70,8 +70,8 @@ spec:
         image: '{{ .Values.lds_client_image }}'
         resources:
           requests:
-            cpu: "1000m"
-            memory: "512Mi"
+            cpu: "500m"
+            memory: "500Mi"
         ports:
         - containerPort: 80
         env:

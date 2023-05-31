@@ -15,13 +15,13 @@
  */
 
 resource "google_compute_network" "primary" {
-  name                    = "cloud-deployment-java"
+  name                    = "cloud-deployment-gke"
   project                 = var.project_id
   auto_create_subnetworks = true
 }
 
 resource "google_compute_firewall" "cloud_deployment" {
-  name      = "cloud-deployment-health-check"
+  name      = "cloud-deployment-gke-health-check"
   network   = google_compute_network.primary.name
   direction = "INGRESS"
   source_ranges = [
