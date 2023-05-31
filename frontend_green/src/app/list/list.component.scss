@@ -13,22 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-/* You can add global styles to this file, and also import other style files */
-@import "tailwindcss/base";
-@import "tailwindcss/components";
-@import "tailwindcss/utilities";
-@import '@angular/cdk/overlay-prebuilt.css';
-
-body{
-    --tw-bg-opacity: 1;
-    background-color: rgb(255 255 255 / var(--tw-bg-opacity));
+.transite {
+  transition: transform 0.5s;
 }
 
-.red-snackbar {
-  background: #F44336;
-  border: 1px solid #F44336;
-  border-radius: 5px;
-  color: white;
-  text-align: center;
+.limit-height {
+  max-height: 46px;
 }

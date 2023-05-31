@@ -61,7 +61,7 @@ variable "lds_server_image" {
 variable "lds_client_image" {
   description = "Docker image for frontend"
   type        = string
-  default     = "gcr.io/aemon-projects-dev-000/jss-cd-gke-frontend:v1"
+  default     = "gcr.io/aemon-projects-dev-000/jss-cd-gke-frontend:blue"
 }
 
 variable "init" {

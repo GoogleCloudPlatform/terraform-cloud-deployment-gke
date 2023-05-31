@@ -1,0 +1,132 @@
+<!--
+Copyright 2023 Google LLC
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+    https://www.apache.org/licenses/LICENSE-2.0
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+<div class="fixed inset-0 bg-black bg-opacity-50" (click)="closeModal($event)">
+  <div class="fixed inset-0 flex items-center justify-center z-50">
+    <div
+      class="bg-slate-800 text-white p-8 rounded-lg shadow-lg max-w-screen-lg w-full relative"
+      (click)="stopPropagation($event)"
+    >
+    <button
+    (click)="closeModal($event)"
+    class="absolute top-3 right-3 text-white"
+  >
+    <hero-icon
+      name="x"
+      type="solid"
+      class="h-6 stroke-0 mr-1 fill-slate-100"
+    ></hero-icon>
+  </button>
+      <h2 class="text-2xl mb-6 text-center">Upload Files</h2>
+      <div class="flex justify-between">
+        <div class="flex-[1_1_60%] p-1">
+          <div class="mb-4">Add Files:</div>
+          <button
+            (click)="triggerFileInput()"
+            [disabled]="uploadInProgress"
+            class="bg-blue-500 text-white px-4 py-2 rounded mb-4 w-full hover:bg-blue-400"
+          >
+            <hero-icon
+              name="cloud-upload"
+              type="solid"
+              class="w-full h-7 mr-1 fill-slate-100"
+            ></hero-icon>
+
+          </button>
+          <input
+            #fileInput
+            type="file"
+            class="hidden"
+            multiple
+            (change)="addFiles($event)"
+            placeholder="Add Files"
+          />
+          <p *ngIf="showHint" class="text-red-500 text-sm mt-2">
+            Files are required.
+          </p>
+          <div class="file-list mb-4 max-h-[350px] overflow-auto">
+            <div
+              *ngFor="let file of selectedFiles; let i = index"
+              class="file-item flex items-center mb-2 bg-slate-500 rounded p-3 px-5 justify-between"
+            >
+              {{ file.name }}
+              <button
+                class="remove-button ml-2"
+                (click)="removeFile(i)"
+                [disabled]="uploadInProgress"
+              >
+                <hero-icon
+                  name="x"
+                  type="solid"
+                  class="h-4 stroke-0 mr-1 fill-slate-100"
+                ></hero-icon>
+              </button>
+            </div>
+            <div class="flex justify-end">
+              <h3  *ngIf="!showFileExceed">{{selectedFiles.length}} / 100</h3>
+              <h3  *ngIf="showFileExceed" class="text-red-500">Add over 100 files.</h3>
+            </div>
+          </div>
+        </div>
+        <div class="tags-section mb-4 flex-[1_1_30%] p-1">
+          <label for="tags-input" class="block mb-2">Add Tags:</label>
+          <input
+            id="tags-input"
+            [(ngModel)]="tagsInput"
+            (change)="addTags()"
+            (keyDown.space)="addTags()"
+            placeholder="Seperate tags with space"
+            class="border border-gray-300 p-2 rounded w-full text-black"
+          />
+          <div class="tags-container mt-2">
+            <div
+              *ngFor="let tag of tags; let i = index"
+              class="tag-item bg-slate-600 rounded-full text-sm p-1 px-3 mx-1 mr-1 mb-2 font-thin italic hover:text-amber-500"
+            >
+              #{{ tag }}
+              <button
+                class="remove-tag-button ml-1"
+                (click)="removeTag(i)"
+                [disabled]="uploadInProgress"
+              >
+                <hero-icon
+                  name="x"
+                  type="solid"
+                  class="h-3 stroke-0 mr-1 fill-slate-100"
+                ></hero-icon>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="flex justify-end">
+        <button
+          (click)="closeModal($event)"
+          class="border border-gray-500 text-gray-500 px-4 py-2 rounded hover:bg-gray-500 hover:text-black"
+        >
+          Cancel
+        </button>
+        <button
+          [disabled]="uploadInProgress"
+          (click)="uploadFiles()"
+          class="bg-amber-500 text-white px-4 py-2 rounded ml-2 hover:bg-amber-400 relative min-w-[60px] disabled:bg-gray-500"
+        >
+          <ng-container *ngIf="!uploadInProgress">Upload</ng-container>
+          <span
+            *ngIf="uploadInProgress"
+            class="animate-spin w-4 h-4 border-t-2 border-l-2 border-white rounded-full absolute inset-0 m-auto"
+          ></span>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
