@@ -18,25 +18,16 @@ steps:
     entrypoint: 'gcloud'
     args: ['auth', 'configure-docker', '-q']
 
-  - id: mvn-install
+  - id: build-backend-docker-image
     dir: api
-    volumes:
-      - name: 'm2'
-        path: /root/.m2
-    name: 'maven'
-    entrypoint: 'mvn'
-    args: ['install']
+    name: 'gcr.io/cloud-builders/docker'
+    args: ['build', '-t', 'gcr.io/${PROJECT_ID}/${_BACKEND_IMAGE_REPO_NAME}:${_IMAGE_TAG}', '.']
 
-  - id: build-and-push-api-docker-image
+  - id: push-backend-docker-image
     dir: api
-    volumes:
-      - name: 'm2'
-        path: /root/.m2
-    name: 'maven'
-    entrypoint: 'mvn'
-    env: ['LDS_IMAGE_NAME=gcr.io/${PROJECT_ID}/${_BACKEND_IMAGE_REPO_NAME}:${_BACKEND_IMAGE_TAG}']
-    args: ['compile', 'com.google.cloud.tools:jib-maven-plugin:3.3.1:build']
-  
+    name: 'gcr.io/cloud-builders/docker'
+    args: ['push', 'gcr.io/${PROJECT_ID}/${_BACKEND_IMAGE_REPO_NAME}:${_IMAGE_TAG}']
+
   - id: build-frontend-blue-docker-image
     dir: frontend_blue
     name: 'gcr.io/cloud-builders/docker'

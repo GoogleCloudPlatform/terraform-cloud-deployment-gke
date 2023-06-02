@@ -1,0 +1,25 @@
+# Install golangci-lint:
+# https://golangci-lint.run/usage/install
+
+# Enable the following linters. For the detail of each linter, please check:
+# https://golangci-lint.run/usage/linters
+linters:
+  enable:
+    - errcheck
+    - errorlint
+    - goimports
+    - gosimple
+    - govet
+    - ineffassign
+    - misspell
+    - revive
+    - staticcheck
+    - stylecheck
+    - typecheck
+    - unparam
+    - unused
+
+# Enable the checks that are excluded by default, while encouraged to put into practice.
+# https://golangci-lint.run/usage/false-positives/#default-exclusions
+issues:
+  exclude-use-default: false
