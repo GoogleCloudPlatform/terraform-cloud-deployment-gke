@@ -29,8 +29,8 @@ spec:
         image: 'curlimages/curl'
         resources:
           requests:
-            cpu: "512m"
-            memory: "3000Mi"
+            cpu: "500m"
+            memory: "500Mi"
         command: 
         - /bin/sh
         - -c       
@@ -53,8 +53,8 @@ spec:
         image: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
         resources:
           requests:
-            cpu: "512m"
-            memory: "3000Mi"
+            cpu: "500m"
+            memory: "500Mi"
         command: 
         - /bin/bash
         - -c       
