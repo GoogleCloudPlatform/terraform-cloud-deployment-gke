@@ -21,32 +21,34 @@ steps:
   - id: build-backend-docker-image
     dir: api
     name: 'gcr.io/cloud-builders/docker'
-    args: ['build', '-t', 'gcr.io/${PROJECT_ID}/${_BACKEND_IMAGE_REPO_NAME}:${_IMAGE_TAG}', '.']
+    args: ['build', '-t', 'gcr.io/${PROJECT_ID}/${_BACKEND_IMAGE_REPO_NAME}:${_BACKEND_IMAGE_TAG}', '.']
 
   - id: push-backend-docker-image
     dir: api
     name: 'gcr.io/cloud-builders/docker'
-    args: ['push', 'gcr.io/${PROJECT_ID}/${_BACKEND_IMAGE_REPO_NAME}:${_IMAGE_TAG}']
+    args: ['push', 'gcr.io/${PROJECT_ID}/${_BACKEND_IMAGE_REPO_NAME}:${_BACKEND_IMAGE_TAG}']
 
   - id: build-frontend-blue-docker-image
     dir: frontend_blue
+    waitFor: ['push-backend-docker-image']
     name: 'gcr.io/cloud-builders/docker'
     args: ['build', '-t', 'gcr.io/${PROJECT_ID}/${_FRONTEND_IMAGE_REPO_NAME}:blue', '.']
 
   - id: push-frontend-blue-docker-image
     dir: frontend_blue
-    waitFor: ['build-frontend-docker-image']
+    waitFor: ['build-frontend-blue-docker-image']
     name: 'gcr.io/cloud-builders/docker'
     args: ['push', 'gcr.io/${PROJECT_ID}/${_FRONTEND_IMAGE_REPO_NAME}:blue']
 
   - id: build-frontend-green-docker-image
     dir: frontend_green
+    waitFor: ['push-backend-docker-image']
     name: 'gcr.io/cloud-builders/docker'
     args: ['build', '-t', 'gcr.io/${PROJECT_ID}/${_FRONTEND_IMAGE_REPO_NAME}:green', '.']
 
   - id: push-frontend-green-docker-image
     dir: frontend_green
-    waitFor: ['build-frontend-docker-image']
+    waitFor: ['build-frontend-green-docker-image']
     name: 'gcr.io/cloud-builders/docker'
     args: ['push', 'gcr.io/${PROJECT_ID}/${_FRONTEND_IMAGE_REPO_NAME}:green']
 
