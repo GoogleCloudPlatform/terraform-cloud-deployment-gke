@@ -81,10 +81,6 @@ locals {
       value = local.namespace
     },
     {
-      name  = "gcp_service_account_email"
-      value = module.kubernetes.gcp_service_account_email
-    },
-    {
       name  = "k8s_service_account_name"
       value = local.k8s_service_account_name
     },
@@ -126,7 +122,14 @@ module "base_helm" {
   source = "./modules/helm"
 
   chart_folder_name = "base"
-  entries           = local.base_entries
+  entries = concat(local.base_entries,
+    [
+      {
+        name  = "gcp_service_account_email"
+        value = module.kubernetes.gcp_service_account_email
+      },
+    ]
+  )
 }
 
 module "helm" {
@@ -171,15 +174,6 @@ module "helm" {
       {
         name  = "lds_client_image"
         value = var.lds_client_image
-      },
-      # job
-      {
-        name  = "lds_initialization_bucket_name"
-        value = var.lds_initialization_bucket_name
-      },
-      {
-        name  = "lds_initialization_archive_file_name"
-        value = var.lds_initialization_archive_file_name
       },
     ]
   )

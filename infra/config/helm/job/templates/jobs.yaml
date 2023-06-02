@@ -29,8 +29,8 @@ spec:
         image: 'curlimages/curl'
         resources:
           requests:
-            cpu: "500m"
-            memory: "500Mi"
+            cpu: "512m"
+            memory: "3000Mi"
         command: 
         - /bin/sh
         - -c       
@@ -48,14 +48,15 @@ spec:
         env:
           - name: LDS_SERVER
             value: '{{ .Values.project_id | upper | replace "-" "_" }}_LDS_SVC_{{ .Values.region | upper | replace "-" "_"}}_SERVICE_HOST'
+      containers:
       - name: migration-data-job
         image: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
         resources:
           requests:
-            cpu: "500m"
-            memory: "500Mi"
+            cpu: "512m"
+            memory: "3000Mi"
         command: 
-        - /bin/sh
+        - /bin/bash
         - -c       
         - |
             printenv | while read -r line; do
@@ -76,7 +77,6 @@ spec:
                 echo "----------------------"
               fi
             done
-
         env:
           - name: LDS_SERVER
             value: '{{ .Values.project_id | upper | replace "-" "_" }}_LDS_SVC_{{ .Values.region | upper | replace "-" "_"}}_SERVICE_HOST'
@@ -84,13 +84,5 @@ spec:
             value: '{{ .Values.lds_initialization_bucket_name }}'
           - name: LDS_INITIALIZATION_ARCHIVE_FILE_NAME
             value: '{{ .Values.lds_initialization_archive_file_name }}'
-      containers:
-      - name: job-workflow
-        image: 'busybox'
-        resources:
-          requests:
-            cpu: "250m"
-            memory: "128Mi"
-        command: ["echo", "job completed!"]
       restartPolicy: Never
       

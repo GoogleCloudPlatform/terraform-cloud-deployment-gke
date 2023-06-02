@@ -24,11 +24,5 @@ region: ${REGION}
 
 k8s_service_account_name: ${K8S_SERVICE_ACCOUNT_NAME}
 
-lds_server_image: ${LDS_SERVER_IMAGE}
-lds_client_image: ${LDS_CLIENT_IMAGE}
-
-config_maps:
-  lds_rest_port: 8000
-  lds_bucket: ${LDS_BUCKET}
-  lds_resource_path: ${LDS_RESOURCE_PATH}
-  lds_firestore: ${LDS_FIRESTORE}
+lds_initialization_bucket_name: ${LDS_INITIALIZATION_BUCKET_NAME}
+lds_initialization_archive_file_name: ${LDS_INITIALIZATION_ARCHIVE_FILE_NAME}
