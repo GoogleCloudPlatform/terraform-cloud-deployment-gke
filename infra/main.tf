@@ -22,12 +22,13 @@ module "project_services" {
 
   activate_apis = [
     "compute.googleapis.com",
-    "run.googleapis.com",
     "iam.googleapis.com",
     "cloudresourcemanager.googleapis.com",
     "firestore.googleapis.com",
     "monitoring.googleapis.com",
     "cloudtrace.googleapis.com",
+    "container.googleapis.com",
+    "storage.googleapis.com",
   ]
 }
 
