@@ -35,7 +35,7 @@ resource "helm_release" "manifest" {
     file("${path.module}/../../config/helm/${var.chart_folder_name}/values.yaml"),
   ]
   dynamic "set" {
-    for_each = var.entries == null ? local.default_entries : concat(local.default_entries, var.entries)
+    for_each = length(var.entries) == 0 ? local.default_entries : concat(local.default_entries, var.entries)
     iterator = entry
     content {
       name  = entry.value.name
@@ -43,7 +43,7 @@ resource "helm_release" "manifest" {
     }
   }
   dynamic "set_sensitive" {
-    for_each = var.secret_entries == null ? [] : var.secret_entries
+    for_each = length(var.secret_entries) == 0 ? [] : var.secret_entries
     iterator = secret_entry
     content {
       name  = secret_entry.value.name

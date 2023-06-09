@@ -18,3 +18,28 @@ output "bucket_name" {
   description = "Bucket name"
   value       = module.simple.bucket_name
 }
+
+output "cluster_name" {
+  description = "Cluster info"
+  value       = module.simple.cluster_info.name
+}
+
+output "cluster_location" {
+  description = "Cluster info"
+  value       = module.simple.cluster_info.location
+}
+
+output "cluster_namespace" {
+  description = "Cluster namespace"
+  value       = module.simple.cluster_info.namespace
+}
+
+output "load_balancer_name" {
+  description = "Name of the load balancer"
+  value       = module.simple.load_balancer_name
+}
+
+output "backend_service_name" {
+  description = "Name of the backend service"
+  value       = module.simple.backend_service_name
+}

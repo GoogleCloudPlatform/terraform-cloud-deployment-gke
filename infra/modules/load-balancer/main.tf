@@ -16,7 +16,7 @@
 
 resource "google_compute_backend_bucket" "cdn" {
   project     = var.project_id
-  name        = "cloud-deployment-gke-cdn"
+  name        = "cloud-deployment-gke-golang-cdn"
   bucket_name = var.bucket_name
   enable_cdn  = true
   cdn_policy {
@@ -37,7 +37,7 @@ resource "google_compute_backend_bucket" "cdn" {
 
 resource "google_compute_health_check" "cloud_deployment" {
   project = var.project_id
-  name    = "cloud-deployment-gke-http-health-check"
+  name    = "cloud-deployment-gke-golang"
   http_health_check {
     port_specification = "USE_SERVING_PORT"
   }
@@ -45,13 +45,8 @@ resource "google_compute_health_check" "cloud_deployment" {
 
 resource "google_compute_backend_service" "cloud_deployment" {
   project               = var.project_id
-  name                  = "cloud-deployment-gke"
+  name                  = "cloud-deployment-gke-golang"
   load_balancing_scheme = "EXTERNAL"
-  backend {
-    balancing_mode        = "RATE"
-    max_rate_per_endpoint = 10
-    group                 = var.k8s_network_endpoint_group_id
-  }
   health_checks = [
     google_compute_health_check.cloud_deployment.self_link,
   ]
@@ -59,7 +54,7 @@ resource "google_compute_backend_service" "cloud_deployment" {
 
 resource "google_compute_url_map" "cloud_deployment" {
   project         = var.project_id
-  name            = "cloud-deployment-gke-lb"
+  name            = "cloud-deployment-gke-golang-lb"
   default_service = google_compute_backend_service.cloud_deployment.id
   host_rule {
     path_matcher = "app"
@@ -81,14 +76,14 @@ resource "google_compute_url_map" "cloud_deployment" {
 
 resource "google_compute_target_http_proxy" "cloud_deployment" {
   project = var.project_id
-  name    = "cloud-deployment-gke-proxy"
+  name    = "cloud-deployment-gke-golang"
   url_map = google_compute_url_map.cloud_deployment.self_link
 }
 
 resource "google_compute_global_forwarding_rule" "cloud_deployment" {
   project    = var.project_id
   labels     = var.labels
-  name       = "cloud-deployment-app-java"
+  name       = "cloud-deployment-gke-golang"
   target     = google_compute_target_http_proxy.cloud_deployment.self_link
   ip_address = google_compute_global_address.cloud_deployment.address
   port_range = "80"
@@ -96,7 +91,7 @@ resource "google_compute_global_forwarding_rule" "cloud_deployment" {
 
 resource "google_compute_global_address" "cloud_deployment" {
   project      = var.project_id
-  name         = "cloud-deployment-gke-external-ip"
+  name         = "cloud-deployment-gke-golang"
   ip_version   = "IPV4"
   address_type = "EXTERNAL"
 }

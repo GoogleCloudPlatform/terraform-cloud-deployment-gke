@@ -24,7 +24,11 @@ output "gcp_service_account_email" {
   value       = google_service_account.gcp.email
 }
 
-output "cluster_name" {
-  description = "name of the Google Kubernetes Engine cluster"
-  value       = google_container_cluster.control_plane.name
+output "cluster_info" {
+  description = "GKE cluster information containing name, location and namespace"
+  value = {
+    name      = google_container_cluster.control_plane.name,
+    location  = google_container_cluster.control_plane.location,
+    namespace = var.k8s_namespace_name,
+  }
 }

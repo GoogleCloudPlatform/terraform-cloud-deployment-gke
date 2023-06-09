@@ -18,3 +18,8 @@ variable "project_id" {
   description = "GCP project ID."
   type        = string
 }
+
+variable "health_check_allow_ports" {
+  description = "The ports to allow for health check."
+  type        = list(number)
+}
