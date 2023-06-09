@@ -23,3 +23,13 @@ output "backend_bucket_name" {
   description = "The name of the backend bucket used for Cloud CDN"
   value       = google_compute_backend_bucket.cdn.name
 }
+
+output "load_balancer_name" {
+  description = "The name of the load balancer"
+  value       = google_compute_url_map.cloud_deployment.name
+}
+
+output "backend_service_name" {
+  description = "The name of the backend_service"
+  value       = google_compute_global_forwarding_rule.cloud_deployment.name
+}

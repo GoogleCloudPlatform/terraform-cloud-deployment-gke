@@ -24,5 +24,5 @@ region: ${REGION}
 
 k8s_service_account_name: ${K8S_SERVICE_ACCOUNT_NAME}
 
-lds_initialization_bucket_name: ${LDS_INITIALIZATION_BUCKET_NAME}
-lds_initialization_archive_file_name: ${LDS_INITIALIZATION_ARCHIVE_FILE_NAME}
+lds_initialization_bucket_name: 'lds-resources-236348946525'
+lds_initialization_archive_file_name: 'initialization.tar.gz'

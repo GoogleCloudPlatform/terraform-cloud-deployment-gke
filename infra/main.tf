@@ -15,11 +15,11 @@
  */
 
 module "project_services" {
-  source                      = "terraform-google-modules/project-factory/google//modules/project_services"
-  version                     = "~> 14.0"
+  source  = "terraform-google-modules/project-factory/google//modules/project_services"
+  version = "~> 14.0"
+
   disable_services_on_destroy = var.disable_services_on_destroy
   project_id                  = var.project_id
-
   activate_apis = [
     "compute.googleapis.com",
     "iam.googleapis.com",
@@ -36,6 +36,7 @@ data "google_project" "project" {
   depends_on = [
     module.project_services
   ]
+
   project_id = var.project_id
 }
 
@@ -45,25 +46,10 @@ data "google_client_config" "default" {
   ]
 }
 
-module "storage" {
-  source = "./modules/storage"
-
-  project_id = data.google_project.project.project_id
-  location   = var.bucket_location
-  labels     = var.labels
-  name       = "cloud-deployment-gke-resource-${data.google_project.project.number}"
-}
-
-module "networking" {
-  source = "./modules/networking"
-
-  project_id = data.google_project.project.project_id
-}
-
 locals {
   resource_path = "resource"
   collection_fields = {
-    "${var.firestore_collection_id}-gke" = [
+    "${var.firestore_collection_id}-golang" = [
       {
         field_path   = "tags"
         array_config = "CONTAINS"
@@ -74,6 +60,7 @@ locals {
       },
     ]
   }
+  lds_firestore            = [for key, value in local.collection_fields : key][0]
   namespace                = "cloud-deployment"
   k8s_service_account_name = "cloud-deployment"
   base_entries = [
@@ -85,6 +72,32 @@ locals {
       name  = "k8s_service_account_name"
       value = local.k8s_service_account_name
     },
+    {
+      name  = "project_id"
+      value = data.google_project.project.project_id
+    },
+    {
+      name  = "region"
+      value = var.region
+    },
+  ]
+}
+
+module "storage" {
+  source = "./modules/storage"
+
+  project_id = data.google_project.project.project_id
+  location   = var.bucket_location
+  labels     = var.labels
+  name       = "cloud-deployment-gke-golang-resource-${data.google_project.project.number}"
+}
+
+module "networking" {
+  source = "./modules/networking"
+
+  project_id = data.google_project.project.project_id
+  health_check_allow_ports = [
+    80,
   ]
 }
 
@@ -102,12 +115,12 @@ module "kubernetes" {
   ]
   source = "./modules/kubernetes"
 
-  cluster_name           = "cloud-deployment-gke"
+  cluster_name           = "cloud-deployment-gke-golang"
   region                 = var.region
   zones                  = var.zones
   network_self_link      = module.networking.vpc_network_self_link
   project_id             = data.google_project.project.project_id
-  gcp_service_account_id = "cloud-deployment-gke"
+  gcp_service_account_id = "cloud-deployment-gke-golang"
   gcp_service_account_iam_roles = [
     "roles/storage.objectAdmin",
     "roles/datastore.user",
@@ -133,69 +146,11 @@ module "base_helm" {
   )
 }
 
-module "helm" {
-  depends_on = [
-    module.base_helm,
-  ]
-  source = "./modules/helm"
-
-  chart_folder_name = "lds"
-  entries = concat(local.base_entries,
-    [
-      {
-        name  = "project_id"
-        value = data.google_project.project.project_id
-      },
-      {
-        name  = "region"
-        value = var.region
-      },
-      # lds_server
-      {
-        name  = "lds_server_image"
-        value = var.lds_server_image
-      },
-      {
-        name  = "config_maps.lds_rest_port"
-        value = "8000"
-      },
-      {
-        name  = "config_maps.lds_bucket"
-        value = module.storage.bucket_name
-      },
-      {
-        name  = "config_maps.lds_resource_path"
-        value = "/${local.resource_path}"
-      },
-      {
-        name  = "config_maps.lds_firestore"
-        value = "${var.firestore_collection_id}-gke" # equals to local.collection_fields's key
-      },
-      # lds_client
-      {
-        name  = "lds_client_image"
-        value = var.lds_client_image
-      },
-    ]
-  )
-}
-
-data "google_compute_network_endpoint_group" "cloud_deployment" {
-  depends_on = [
-    module.helm,
-  ]
-  project = data.google_project.project.project_id
-  name    = "cloud-deployment-gke"
-  zone    = var.zones[0]
-}
-
 module "load_balancer" {
   source = "./modules/load-balancer"
 
-  project_id                    = data.google_project.project.project_id
-  region                        = var.region
-  bucket_name                   = module.storage.bucket_name
-  k8s_network_endpoint_group_id = data.google_compute_network_endpoint_group.cloud_deployment.id
-  resource_path                 = local.resource_path
-  labels                        = var.labels
+  project_id    = data.google_project.project.project_id
+  bucket_name   = module.storage.bucket_name
+  resource_path = local.resource_path
+  labels        = var.labels
 }

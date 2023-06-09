@@ -11,6 +11,11 @@
 
 | Name | Description |
 |------|-------------|
+| backend\_service\_name | Name of the backend service |
 | bucket\_name | Bucket name |
+| cluster\_location | Cluster info |
+| cluster\_name | Cluster info |
+| cluster\_namespace | Cluster namespace |
+| load\_balancer\_name | Name of the load balancer |
 
 <!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->

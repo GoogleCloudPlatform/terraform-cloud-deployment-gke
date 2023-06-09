@@ -15,13 +15,13 @@
  */
 
 resource "google_compute_network" "primary" {
-  name                    = "cloud-deployment-gke"
+  name                    = "cloud-deployment-gke-golang"
   project                 = var.project_id
   auto_create_subnetworks = true
 }
 
 resource "google_compute_firewall" "cloud_deployment" {
-  name      = "cloud-deployment-gke-health-check"
+  name      = "cloud-deployment-gke-golang-health-check"
   network   = google_compute_network.primary.name
   direction = "INGRESS"
   source_ranges = [
@@ -30,6 +30,6 @@ resource "google_compute_firewall" "cloud_deployment" {
   ]
   allow {
     protocol = "tcp"
-    ports    = ["80"]
+    ports    = var.health_check_allow_ports
   }
 }

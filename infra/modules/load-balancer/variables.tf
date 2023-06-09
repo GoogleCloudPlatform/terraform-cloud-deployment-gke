@@ -19,11 +19,6 @@ variable "project_id" {
   type        = string
 }
 
-variable "region" {
-  description = "Google cloud region where the resource will be created."
-  type        = string
-}
-
 variable "bucket_name" {
   description = "Bucket name"
   type        = string
@@ -37,9 +32,4 @@ variable "resource_path" {
 variable "labels" {
   description = "A map of key/value label pairs to assign to the bucket."
   type        = map(string)
-}
-
-variable "k8s_network_endpoint_group_id" {
-  description = "The ID of the network endpoint group to which all instances in the NEG belong."
-  type        = string
 }

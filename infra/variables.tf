@@ -52,46 +52,22 @@ variable "bucket_location" {
   }
 }
 
-variable "lds_server_image" {
-  description = "Docker image for backend"
-  type        = string
-  default     = "gcr.io/aemon-projects-dev-000/jss-cd-gke-backend:latest"
-}
-
-variable "lds_client_image" {
-  description = "Docker image for frontend"
-  type        = string
-  default     = "gcr.io/aemon-projects-dev-000/jss-cd-gke-frontend:blue"
-}
-
 variable "init" {
   type        = bool
   description = "Initialize resource or not"
   default     = true
 }
 
-variable "lds_initialization_bucket_name" {
-  description = "Bucket for cloud run job"
-  type        = string
-  default     = "lds-resources-236348946525"
-}
-
-variable "lds_initialization_archive_file_name" {
-  description = "Archive file's name in lds-initialization bucket"
-  type        = string
-  default     = "initialization.tar.gz"
-}
-
 variable "labels" {
   type        = map(string)
   description = "A map of key/value label pairs to assign to the resources."
   default = {
-    app = "cloud-deployment-gke"
+    app = "cloud-deployment-gke-golang"
   }
 }
 
 variable "firestore_collection_id" {
   description = "Firestore collection id"
   type        = string
-  default     = "fileMetadata-cdn"
+  default     = "fileMetadata-cdn-gke"
 }

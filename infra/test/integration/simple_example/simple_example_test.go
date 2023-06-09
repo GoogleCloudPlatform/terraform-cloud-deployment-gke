@@ -16,8 +16,10 @@ package simple_example
 
 import (
 	"fmt"
+	"testing"
 
 	"github.com/GoogleCloudPlatform/cloud-foundation-toolkit/infra/blueprint-test/pkg/gcloud"
+	"github.com/GoogleCloudPlatform/cloud-foundation-toolkit/infra/blueprint-test/pkg/golden"
 	"github.com/GoogleCloudPlatform/cloud-foundation-toolkit/infra/blueprint-test/pkg/tft"
 	"github.com/stretchr/testify/assert"
 )
@@ -34,6 +36,36 @@ func TestSimpleExample(t *testing.T) {
 		resourceBucketName := example.GetStringOutput("bucket_name")
 		resourceStorage := gcloud.Run(t, fmt.Sprintf("storage buckets describe gs://%s --format=json", resourceBucketName), gcloudArgs)
 		assert.NotEmpty(resourceStorage)
+
+		// Check k8s cluster configs
+		clusterName := example.GetStringOutput("cluster_name")
+		clusterLocation := example.GetStringOutput("cluster_location")
+
+		op := gcloud.Runf(t, "container clusters describe %s --zone %s --project %s", clusterName, clusterLocation, projectID)
+		g := golden.NewOrUpdate(t, op.String(),
+			golden.WithSanitizer(golden.StringSanitizer(clusterName, "CLUSTER_NAME")),
+			golden.WithSanitizer(golden.StringSanitizer(clusterLocation, "CLUSTER_LOCATION")),
+		)
+		validateJSONPaths := []string{
+			"name",
+			"location",
+			"autopilot.enabled",
+		}
+		for _, pth := range validateJSONPaths {
+			g.JSONEq(assert, op, pth)
+		}
+		assert.Contains([]string{"RUNNING", "RECONCILING"}, op.Get("status").String())
+
+		// Check if the resource load balancer exists
+		resourceLoadBalancerName := example.GetStringOutput("load_balancer_name")
+		resourceLoadBalancer := gcloud.Run(t, fmt.Sprintf("compute url-maps describe %s --format=json", resourceLoadBalancerName), gcloudArgs)
+		assert.NotEmpty(resourceLoadBalancer)
+
+		// Check if the resource backend service exists
+		backendServiceName := example.GetStringOutput("backend_service_name")
+		backendService := gcloud.Run(t, fmt.Sprintf("compute forwarding-rules list --filter='%s' --format=json", backendServiceName), gcloudArgs)
+		assert.NotEmpty(backendService)
+
 	})
 	example.Test()
 }

@@ -31,23 +31,14 @@ spec:
           requests:
             cpu: "500m"
             memory: "500Mi"
-        command: 
+        command:
         - /bin/sh
-        - -c       
+        - -c
         - |
-            printenv | while read -r line; do
-              name=$(echo "$line" | cut -d '=' -f 1)
-              value=$(echo "$line" | cut -d '=' -f 2-)
-              if [ "$name" = "$LDS_SERVER" ]; then
-                echo "Variable: $name"
-                echo "Value: $value"
-                curl -s -X DELETE $value:80/api/reset
-                echo "----------------------"
-              fi
-            done
+            curl -s -X DELETE $LDS_SERVER:80/api/reset
         env:
           - name: LDS_SERVER
-            value: '{{ .Values.project_id | upper | replace "-" "_" }}_LDS_SVC_{{ .Values.region | upper | replace "-" "_"}}_SERVICE_HOST'
+            value: '{{ .Values.project_id }}-lds-svc-{{ .Values.region }}.{{ .Values.namespace }}.svc.cluster.local'
       containers:
       - name: migration-data-job
         image: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
@@ -55,34 +46,19 @@ spec:
           requests:
             cpu: "500m"
             memory: "500Mi"
-        command: 
+        command:
         - /bin/bash
-        - -c       
+        - -c
         - |
-            printenv | while read -r line; do
-              name=$(echo "$line" | cut -d '=' -f 1)
-              value=$(echo "$line" | cut -d '=' -f 2-)
-              if [ "$name" = "$LDS_SERVER" ]; then
-                echo "Variable: $name"
-                echo "Value: $value"
-                echo ${LDS_INITIALIZATION_BUCKET_NAME}
-                echo ${LDS_INITIALIZATION_ARCHIVE_FILE_NAME}
-
-                uri=${value}:80
-                echo $uri
-                
-                gsutil cp gs://${LDS_INITIALIZATION_BUCKET_NAME}/execution.sh .
-                gsutil cp gs://${LDS_INITIALIZATION_BUCKET_NAME}/upload.sh .
-                bash execution.sh $LDS_INITIALIZATION_BUCKET_NAME $LDS_INITIALIZATION_ARCHIVE_FILE_NAME $uri
-                echo "----------------------"
-              fi
-            done
+            gsutil cp gs://${LDS_INITIALIZATION_BUCKET_NAME}/execution.sh .
+            gsutil cp gs://${LDS_INITIALIZATION_BUCKET_NAME}/upload.sh .
+            uri=${LDS_SERVER}:80
+            bash execution.sh $LDS_INITIALIZATION_BUCKET_NAME $LDS_INITIALIZATION_ARCHIVE_FILE_NAME $uri
         env:
           - name: LDS_SERVER
-            value: '{{ .Values.project_id | upper | replace "-" "_" }}_LDS_SVC_{{ .Values.region | upper | replace "-" "_"}}_SERVICE_HOST'
+            value: '{{ .Values.project_id }}-lds-svc-{{ .Values.region }}.{{ .Values.namespace }}.svc.cluster.local'
           - name: LDS_INITIALIZATION_BUCKET_NAME
             value: '{{ .Values.lds_initialization_bucket_name }}'
           - name: LDS_INITIALIZATION_ARCHIVE_FILE_NAME
             value: '{{ .Values.lds_initialization_archive_file_name }}'
       restartPolicy: Never
-      

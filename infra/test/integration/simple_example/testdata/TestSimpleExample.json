@@ -1,0 +1,7 @@
+{
+  "autopilot": {
+    "enabled": true
+  },
+  "name": "CLUSTER_NAME",
+  "location": "CLUSTER_LOCATION"
+}

@@ -17,13 +17,13 @@
 terraform {
   required_version = ">= 0.13"
   required_providers {
-    helm = {
-      source  = "hashicorp/helm"
-      version = "~> 2.9"
-    }
     random = {
       source  = "hashicorp/random"
       version = "~> 3.4"
+    }
+    helm = {
+      source  = "hashicorp/helm"
+      version = "~> 2.9"
     }
   }
 }
