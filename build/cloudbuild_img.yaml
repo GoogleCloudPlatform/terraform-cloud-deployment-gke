@@ -29,26 +29,28 @@ steps:
     args: ['push', 'gcr.io/${PROJECT_ID}/${_BACKEND_IMAGE_REPO_NAME}:${_BACKEND_IMAGE_TAG}']
 
   - id: build-frontend-blue-docker-image
-    dir: frontend_blue
-    waitFor: ['push-backend-docker-image']
+    dir: frontend
     name: 'gcr.io/cloud-builders/docker'
     args: ['build', '-t', 'gcr.io/${PROJECT_ID}/${_FRONTEND_IMAGE_REPO_NAME}:blue', '.']
 
   - id: push-frontend-blue-docker-image
-    dir: frontend_blue
-    waitFor: ['build-frontend-blue-docker-image']
+    dir: frontend
     name: 'gcr.io/cloud-builders/docker'
     args: ['push', 'gcr.io/${PROJECT_ID}/${_FRONTEND_IMAGE_REPO_NAME}:blue']
 
+  - id: prepare-frontend-green-styles
+    dir: frontend
+    name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+    entrypoint: 'cp'
+    args: ['src/green.styles.scss', 'src/styles.scss']
+
   - id: build-frontend-green-docker-image
-    dir: frontend_green
-    waitFor: ['push-backend-docker-image']
+    dir: frontend
     name: 'gcr.io/cloud-builders/docker'
     args: ['build', '-t', 'gcr.io/${PROJECT_ID}/${_FRONTEND_IMAGE_REPO_NAME}:green', '.']
 
   - id: push-frontend-green-docker-image
-    dir: frontend_green
-    waitFor: ['build-frontend-green-docker-image']
+    dir: frontend
     name: 'gcr.io/cloud-builders/docker'
     args: ['push', 'gcr.io/${PROJECT_ID}/${_FRONTEND_IMAGE_REPO_NAME}:green']
 
@@ -58,5 +60,4 @@ substitutions:
   _BACKEND_IMAGE_TAG: 'latest'
 
 options:
-  machineType: 'E2_HIGHCPU_8'
   logging: 'CLOUD_LOGGING_ONLY'
