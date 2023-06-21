@@ -67,7 +67,7 @@ describe('UpdateFileComponent', () => {
   it('should create the component', () => {
     expect(component).toBeTruthy();
   });
-   
+
   it('should update successfully', () => {
     httpTestingController = TestBed.inject(HttpTestingController);
     component.update();

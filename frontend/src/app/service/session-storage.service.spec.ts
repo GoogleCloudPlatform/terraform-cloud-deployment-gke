@@ -48,7 +48,7 @@ describe('SessionStorageService', () => {
 
   it('should retrieve image data correctly', () => {
     service.saveImageData(imgData);
-    const imageData = service.getImageData(); 
+    const imageData = service.getImageData();
     expect(JSON.stringify(imageData)).toEqual(JSON.stringify(imgData));
   });
 });
