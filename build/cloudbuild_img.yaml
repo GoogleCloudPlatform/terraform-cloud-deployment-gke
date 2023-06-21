@@ -42,7 +42,7 @@ steps:
     dir: frontend
     name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
     entrypoint: 'cp'
-    args: ['src/green.styles.scss', 'src/styles.scss']
+    args: ['src/green.index.html', 'src/index.html']
 
   - id: build-frontend-green-docker-image
     dir: frontend

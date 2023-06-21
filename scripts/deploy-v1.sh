@@ -1,4 +1,5 @@
 #!/bin/bash
+
 # Copyright 2023 Google LLC
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -13,71 +14,62 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-
 # GKE cluster configs
 PROJECT_ID="$(gcloud config get-value project | tail -1)"
 PROJECT_NUMBER=$(gcloud projects list --filter PROJECT_ID="${PROJECT_ID}" --format="value(projectNumber)")
-GCR_PROJECT_ID="aemon-projects-dev-000"
 CLUSTER_NAME="cloud-deployment-gke-golang"
 REGION="us-west1"
 ZONE="us-west1-a"
 
 # Deployment configs
 NAMESPACE="cloud-deployment"
-DEPLOYMENT="${PROJECT_ID}-lds-deployment-${REGION}"
-BACKEND_CONTAINER_NAME="${PROJECT_ID}-lds-server-${REGION}"
-FRONTEND_CONTAINER_NAME="${PROJECT_ID}-lds-client-${REGION}"
-BACKEND_CONTAINER="gcr.io/${GCR_PROJECT_ID}/jss-cd-gke-backend:latest"
-FRONTEND_CONTAINER="gcr.io/${GCR_PROJECT_ID}/jss-cd-gke-frontend:blue"
 K8S_SERVICE_ACCOUNT_NAME="cloud-deployment"
 LDS_BUCKET="cloud-deployment-gke-golang-resource-${PROJECT_NUMBER}"
-GCP_SERVICE_ACCOUNT_EMAIL="cloud-deployment-gke-golang@${PROJECT_ID}.iam.gserviceaccount.com"
 LDS_RESOURCE_PATH="/resource"
 LDS_FIRESTORE="fileMetadata-cdn-gke-golang"
 
-# Get Cloud Load Balancer configs
-FORWARDING_RULE_NAME="cloud-deployment-gke-golang"
-FORWARDING_RULE_IP="$(gcloud compute forwarding-rules list --filter="${FORWARDING_RULE_NAME}" --format="value(IP_ADDRESS)")"
+# Procedure to deploy v1
+gcloud container clusters get-credentials "${CLUSTER_NAME}" --region "${REGION}"
 
-# Procedure to deploy v1  
-gcloud container clusters get-credentials ${CLUSTER_NAME} --region ${REGION} 
 # helm deploy
-
 helm install \
-    --set namespace=${NAMESPACE} \
-    --set project_id=${PROJECT_ID} \
-    --set region=${REGION} \
-    --set k8s_service_account_name=${K8S_SERVICE_ACCOUNT_NAME} \
-    --set config_maps.lds_bucket=${LDS_BUCKET} \
-    --set config_maps.lds_resource_path=${LDS_RESOURCE_PATH} \
-    --set config_maps.lds_firestore=${LDS_FIRESTORE} \
+    --set namespace="${NAMESPACE}" \
+    --set project_id="${PROJECT_ID}" \
+    --set region="${REGION}" \
+    --set k8s_service_account_name="${K8S_SERVICE_ACCOUNT_NAME}" \
+    --set config_maps.lds_bucket="${LDS_BUCKET}" \
+    --set config_maps.lds_resource_path="${LDS_RESOURCE_PATH}" \
+    --set config_maps.lds_firestore="${LDS_FIRESTORE}" \
     lds ../infra/config/helm/lds
-echo -e "\n--------------------------------------------------------- "  
+echo -e "\n--------------------------------------------------------- "
 
 helm install \
-    --set namespace=${NAMESPACE} \
-    --set project_id=${PROJECT_ID} \
-    --set region=${REGION} \
-    --set k8s_service_account_name=${K8S_SERVICE_ACCOUNT_NAME} \
+    --set namespace="${NAMESPACE}" \
+    --set project_id="${PROJECT_ID}" \
+    --set region="${REGION}" \
+    --set k8s_service_account_name="${K8S_SERVICE_ACCOUNT_NAME}" \
     job ../infra/config/helm/job
-echo -e "\n--------------------------------------------------------- "  
+echo -e "\n--------------------------------------------------------- "
 
 # Procedure to connect k8s pod to loadbalancer
 GCP_NEG="$(gcloud compute network-endpoint-groups describe cloud-deployment-gke-golang \
-    --project=${PROJECT_ID} \
-    --zone=${ZONE} \
+    --project="${PROJECT_ID}" \
+    --zone="${ZONE}" \
     --format="value(name)")"
 
 gcloud compute backend-services add-backend cloud-deployment-gke-golang \
-    --project=${PROJECT_ID} \
+    --project="${PROJECT_ID}" \
     --global \
-    --network-endpoint-group=${GCP_NEG} \
-    --network-endpoint-group-zone=${ZONE} \
+    --network-endpoint-group="${GCP_NEG}" \
+    --network-endpoint-group-zone="${ZONE}" \
     --balancing-mode=RATE \
     --max-rate-per-endpoint=10
 
 # Ouput message for successful deployment
-echo -e "\n--------------------------------------------------------- "  
+echo -e "\n--------------------------------------------------------- "
+# Get Cloud Load Balancer configs
+FORWARDING_RULE_NAME="cloud-deployment-gke-golang"
+FORWARDING_RULE_IP="$(gcloud compute forwarding-rules list --filter="${FORWARDING_RULE_NAME}" --format="value(IP_ADDRESS)")"
 echo "V1 version was deployed successfully!
 access the web UI home page through the external load balancer IP: ${FORWARDING_RULE_IP}"
-echo -e "---------------------------------------------------------\n"  
+echo -e "---------------------------------------------------------\n"
