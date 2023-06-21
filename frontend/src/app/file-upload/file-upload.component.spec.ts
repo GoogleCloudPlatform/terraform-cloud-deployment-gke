@@ -26,7 +26,7 @@ describe('FileUploadComponent', () => {
     await TestBed.configureTestingModule({
       declarations: [ FileUploadComponent ],
       imports: [ FormsModule,
-        HttpClientModule, 
+        HttpClientModule,
         HeroIconModule.forRoot({
           ...allIcons
         }) ],

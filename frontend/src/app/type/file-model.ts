@@ -13,7 +13,7 @@
 // limitations under the License.
 
 /**
- * Object model to describe a file. 
+ * Object model to describe a file.
  */
 export interface FileModel {
   /**

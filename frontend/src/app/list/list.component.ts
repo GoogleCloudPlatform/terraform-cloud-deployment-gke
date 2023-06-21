@@ -31,7 +31,7 @@ export class ListComponent {
   tags: string[] = [];
   private tagsSubscription: Subscription = new Subscription;
   showUpdate: boolean = false;
-  updateItem: FileModel | null = null; 
+  updateItem: FileModel | null = null;
   deleteId: string = '';
   private fileSubject = new Subject<FileModel[]>();
   list$: Observable<FileModel[]> = of([]);

@@ -12,10 +12,10 @@ limitations under the License.
 -->
 <div *ngIf="formGroup" [formGroup]="formGroup" class="flex">
   <div class="w-11/12 relative">
-    <input placeholder="Search tags, i.e. Separate tags with space." maxlength="100" id="price" name="price" type="text" 
-      (keydown.enter)="searchTags()" formControlName="tags" 
-      class="block w-full outline-none rounded-l pr-10 border border-indigo-100 px-5 py-3 focus:border border-indigo-100-indigo-500 focus:ring-indigo-500 sm:text-sm" 
-      [matChipInputFor]="chipGrid" [matChipInputSeparatorKeyCodes]="separatorKeysCodes" 
+    <input placeholder="Search tags, i.e. Separate tags with space." maxlength="100" id="price" name="price" type="text"
+      (keydown.enter)="searchTags()" formControlName="tags"
+      class="block w-full outline-none rounded-l pr-10 border border-indigo-100 px-5 py-3 focus:border border-indigo-100-indigo-500 focus:ring-indigo-500 sm:text-sm"
+      [matChipInputFor]="chipGrid" [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
       [matChipInputAddOnBlur]="true" (matChipInputTokenEnd)="addTags($event)" />
     <button *ngIf="tags.length" type="button" class="absolute right-0 p-2.5 px-5 top-0 text-gray-500 hover:text-red-400" (click)="clearTag()">
       ✕

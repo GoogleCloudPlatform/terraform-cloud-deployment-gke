@@ -20,11 +20,6 @@
 @import "tailwindcss/utilities";
 @import '@angular/cdk/overlay-prebuilt.css';
 
-body{
-    --tw-bg-opacity: 1;
-    background-color: rgb(66 133 244 / var(--tw-bg-opacity));
-}
-
 .red-snackbar {
   background: #F44336;
   border: 1px solid #F44336;
