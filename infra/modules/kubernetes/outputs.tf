@@ -21,7 +21,7 @@ output "control_plane" {
 
 output "google_cloud_service_account_email" {
   description = "Google Cloud service account's email"
-  value       = google_service_account.google_cloud.email
+  value       = google_service_account.gcp.email
 }
 
 output "cluster_info" {

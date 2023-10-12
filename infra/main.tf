@@ -120,8 +120,8 @@ module "kubernetes" {
   zones                  = var.zones
   network_self_link      = module.networking.vpc_network_self_link
   project_id             = data.google_project.project.project_id
-  gcp_service_account_id = "cloud-deployment-gke-golang"
-  gcp_service_account_iam_roles = [
+  google_cloud_service_account_id = "cloud-deployment-gke-golang"
+  google_cloud_service_account_iam_roles = [
     "roles/storage.objectAdmin",
     "roles/datastore.user",
     "roles/compute.networkUser",
@@ -139,8 +139,8 @@ module "base_helm" {
   entries = concat(local.base_entries,
     [
       {
-        name  = "gcp_service_account_email"
-        value = module.kubernetes.gcp_service_account_email
+        name  = "google_cloud_service_account_email"
+        value = module.kubernetes.google_cloud_service_account_email
       },
     ]
   )

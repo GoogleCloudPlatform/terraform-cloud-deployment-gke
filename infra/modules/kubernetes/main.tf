@@ -26,24 +26,24 @@ resource "google_container_cluster" "control_plane" {
   resource_labels = var.labels
 }
 
-resource "google_service_account" "google_cloud" {
+resource "google_service_account" "gcp" {
   account_id  = var.google_cloud_service_account_id
   description = "This sa is created by terraform and being used to bind k8s sa"
 }
 
-resource "google_project_iam_member" "google_cloud" {
+resource "google_project_iam_member" "gcp" {
   for_each = toset(var.google_cloud_service_account_iam_roles)
 
   project = var.project_id
   role    = each.key
-  member  = "serviceAccount:${google_service_account.google_cloud.email}"
+  member  = "serviceAccount:${google_service_account.gcp.email}"
 }
 
 resource "google_service_account_iam_binding" "k8s" {
   for_each = toset([
     "roles/iam.workloadIdentityUser",
   ])
-  service_account_id = google_service_account.google_cloud.name
+  service_account_id = google_service_account.gcp.name
   role               = each.value
 
   members = [
