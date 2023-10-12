@@ -5,7 +5,7 @@
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
-| project\_id | GCP project for provisioning cloud resources. | `any` | n/a | yes |
+| project\_id | Google Cloud project for provisioning cloud resources. | `any` | n/a | yes |
 
 ## Outputs
 

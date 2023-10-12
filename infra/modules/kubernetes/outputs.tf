@@ -19,9 +19,9 @@ output "control_plane" {
   value       = google_container_cluster.control_plane
 }
 
-output "gcp_service_account_email" {
-  description = "gcp service account's email"
-  value       = google_service_account.gcp.email
+output "google_cloud_service_account_email" {
+  description = "Google Cloud service account's email"
+  value       = google_service_account.google_cloud.email
 }
 
 output "cluster_info" {

@@ -35,7 +35,7 @@ variable "network_self_link" {
 }
 
 variable "project_id" {
-  description = "GCP project ID."
+  description = "Google Cloud project ID."
   type        = string
   validation {
     condition     = var.project_id != ""
@@ -43,13 +43,13 @@ variable "project_id" {
   }
 }
 
-variable "gcp_service_account_id" {
-  description = "gcp service account's id"
+variable "google_cloud_service_account_id" {
+  description = "Google Cloud service account's id"
   type        = string
 }
 
-variable "gcp_service_account_iam_roles" {
-  description = "the list of permissions for gcp service account"
+variable "google_cloud_service_account_iam_roles" {
+  description = "the list of permissions for Google Cloud service account"
   type        = list(string)
 }
 
