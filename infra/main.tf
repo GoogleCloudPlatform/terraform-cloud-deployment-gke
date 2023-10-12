@@ -115,11 +115,11 @@ module "kubernetes" {
   ]
   source = "./modules/kubernetes"
 
-  cluster_name           = "cloud-deployment-gke-golang"
-  region                 = var.region
-  zones                  = var.zones
-  network_self_link      = module.networking.vpc_network_self_link
-  project_id             = data.google_project.project.project_id
+  cluster_name                    = "cloud-deployment-gke-golang"
+  region                          = var.region
+  zones                           = var.zones
+  network_self_link               = module.networking.vpc_network_self_link
+  project_id                      = data.google_project.project.project_id
   google_cloud_service_account_id = "cloud-deployment-gke-golang"
   google_cloud_service_account_iam_roles = [
     "roles/storage.objectAdmin",
