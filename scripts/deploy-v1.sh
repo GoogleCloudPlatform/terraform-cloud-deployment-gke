@@ -52,7 +52,7 @@ helm install \
 echo -e "\n--------------------------------------------------------- "
 
 # Procedure to connect k8s pod to loadbalancer
-GCP_NEG="$(gcloud compute network-endpoint-groups describe cloud-deployment-gke-golang \
+GOOGLE_CLOUD_NEG="$(gcloud compute network-endpoint-groups describe cloud-deployment-gke-golang \
     --project="${PROJECT_ID}" \
     --zone="${ZONE}" \
     --format="value(name)")"
@@ -60,7 +60,7 @@ GCP_NEG="$(gcloud compute network-endpoint-groups describe cloud-deployment-gke-
 gcloud compute backend-services add-backend cloud-deployment-gke-golang \
     --project="${PROJECT_ID}" \
     --global \
-    --network-endpoint-group="${GCP_NEG}" \
+    --network-endpoint-group="${GOOGLE_CLOUD_NEG}" \
     --network-endpoint-group-zone="${ZONE}" \
     --balancing-mode=RATE \
     --max-rate-per-endpoint=10

@@ -21,7 +21,7 @@ operator: user
 namespace: ${NAMESPACE}
 project_id: ${PROJECT_ID}
 region: ${REGION}
-gcp_service_account_email: ${GCP_SERVICE_ACCOUNT_EMAIL}
+google_cloud_service_account_email: ${GOOGLE_CLOUD_SERVICE_ACCOUNT_EMAIL}
 k8s_service_account_name:  ${K8S_SERVICE_ACCOUNT_NAME}
-gcp_neg: '{"exposed_ports": {"80":{"name": "cloud-deployment-gke-golang"}}}'
+google_cloud_neg: '{"exposed_ports": {"80":{"name": "cloud-deployment-gke-golang"}}}'
 

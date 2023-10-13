@@ -15,5 +15,5 @@
  */
 
 variable "project_id" {
-  description = "GCP project for provisioning cloud resources."
+  description = "Google Cloud project for provisioning cloud resources."
 }

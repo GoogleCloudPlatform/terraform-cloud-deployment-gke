@@ -43,12 +43,12 @@ variable "project_id" {
   }
 }
 
-variable "gcp_service_account_id" {
+variable "google_cloud_service_account_id" {
   description = "gcp service account's id"
   type        = string
 }
 
-variable "gcp_service_account_iam_roles" {
+variable "google_cloud_service_account_iam_roles" {
   description = "the list of permissions for gcp service account"
   type        = list(string)
 }

@@ -19,9 +19,9 @@ output "namespace" {
   value       = local.namespace
 }
 
-output "gcp_service_account_email" {
-  description = "GCP service account email"
-  value       = module.kubernetes.gcp_service_account_email
+output "google_cloud_service_account_email" {
+  description = "Google Cloud service account email"
+  value       = module.kubernetes.google_cloud_service_account_email
 }
 
 output "k8s_service_account_name" {
