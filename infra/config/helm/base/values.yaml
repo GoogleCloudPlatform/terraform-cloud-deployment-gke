@@ -23,5 +23,5 @@ project_id: ${PROJECT_ID}
 region: ${REGION}
 google_cloud_service_account_email: ${GOOGLE_CLOUD_SERVICE_ACCOUNT_EMAIL}
 k8s_service_account_name:  ${K8S_SERVICE_ACCOUNT_NAME}
-goodle_cloud_neg: '{"exposed_ports": {"80":{"name": "cloud-deployment-gke-golang"}}}'
+google_cloud_neg: '{"exposed_ports": {"80":{"name": "cloud-deployment-gke-golang"}}}'
 
