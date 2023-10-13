@@ -18,7 +18,7 @@ metadata:
   namespace: '{{ .Values.namespace }}'
   name: '{{ .Values.project_id }}-lds-svc-{{ .Values.region }}'
   annotations:
-    cloud.google.com/neg: '{{ .Values.gcp_neg }}'
+    cloud.google.com/neg: '{{ .Values.google_cloud_neg }}'
   labels:
     operator: '{{ .Values.operator }}'
 spec:
