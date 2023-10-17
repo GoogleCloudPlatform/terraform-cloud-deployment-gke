@@ -1,0 +1,66 @@
+apiVersion: blueprints.cloud.google.com/v1alpha1
+kind: BlueprintMetadata
+metadata:
+  name: terraform-cloud-deployment-gke-load-balancer
+  annotations:
+    config.kubernetes.io/local-config: "true"
+spec:
+  info:
+    title: load-balancer
+    source:
+      repo: https://github.com/GoogleCloudPlatform/terraform-cloud-deployment-gke.git
+      sourceType: git
+      dir: /infra/modules/load-balancer
+    actuationTool:
+      flavor: Terraform
+      version: ">= 0.13"
+    description: {}
+  content:
+    examples:
+    - name: simple_example
+      location: examples/simple_example
+  interfaces:
+    variables:
+    - name: bucket_name
+      description: Bucket name
+      varType: string
+      defaultValue: null
+      required: true
+    - name: labels
+      description: A map of key/value label pairs to assign to the bucket.
+      varType: map(string)
+      defaultValue: null
+      required: true
+    - name: project_id
+      description: Google Cloud project ID.
+      varType: string
+      defaultValue: null
+      required: true
+    - name: resource_path
+      description: Resource folder path
+      varType: string
+      defaultValue: null
+      required: true
+    outputs:
+    - name: backend_bucket_name
+      description: The name of the backend bucket used for Cloud CDN
+    - name: backend_service_name
+      description: The name of the backend_service
+    - name: lb_external_ip
+      description: Frontend IP address of the load balancer
+    - name: load_balancer_name
+      description: The name of the load balancer
+  requirements:
+    roles:
+    - level: Project
+      roles:
+      - roles/storage.admin
+      - roles/iam.serviceAccountAdmin
+      - roles/resourcemanager.projectIamAdmin
+      - roles/editor
+      - roles/datastore.owner
+    services:
+    - cloudresourcemanager.googleapis.com
+    - iam.googleapis.com
+    - storage.googleapis.com
+    - serviceusage.googleapis.com

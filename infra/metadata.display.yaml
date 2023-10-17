@@ -1,0 +1,40 @@
+apiVersion: blueprints.cloud.google.com/v1alpha1
+kind: BlueprintMetadata
+metadata:
+  name: terraform-cloud-deployment-gke-display
+  annotations:
+    config.kubernetes.io/local-config: "true"
+spec:
+  info:
+    title: cloud-deployment-gke
+    source:
+      repo: https://github.com/GoogleCloudPlatform/terraform-cloud-deployment-gke.git
+      sourceType: git
+      dir: /infra
+  ui:
+    input:
+      variables:
+        bucket_location:
+          name: bucket_location
+          title: Bucket Location
+        disable_services_on_destroy:
+          name: disable_services_on_destroy
+          title: Disable Services On Destroy
+        firestore_collection_id:
+          name: firestore_collection_id
+          title: Firestore Collection Id
+        init:
+          name: init
+          title: Init
+        labels:
+          name: labels
+          title: Labels
+        project_id:
+          name: project_id
+          title: Project Id
+        region:
+          name: region
+          title: Region
+        zones:
+          name: zones
+          title: Zones

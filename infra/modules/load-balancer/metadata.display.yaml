@@ -1,0 +1,28 @@
+apiVersion: blueprints.cloud.google.com/v1alpha1
+kind: BlueprintMetadata
+metadata:
+  name: terraform-cloud-deployment-gke-load-balancer-display
+  annotations:
+    config.kubernetes.io/local-config: "true"
+spec:
+  info:
+    title: load-balancer
+    source:
+      repo: https://github.com/GoogleCloudPlatform/terraform-cloud-deployment-gke.git
+      sourceType: git
+      dir: /infra/modules/load-balancer
+  ui:
+    input:
+      variables:
+        bucket_name:
+          name: bucket_name
+          title: Bucket Name
+        labels:
+          name: labels
+          title: Labels
+        project_id:
+          name: project_id
+          title: Project Id
+        resource_path:
+          name: resource_path
+          title: Resource Path

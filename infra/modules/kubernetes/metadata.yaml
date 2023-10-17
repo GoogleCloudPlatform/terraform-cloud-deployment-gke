@@ -1,0 +1,93 @@
+apiVersion: blueprints.cloud.google.com/v1alpha1
+kind: BlueprintMetadata
+metadata:
+  name: terraform-cloud-deployment-gke-kubernetes
+  annotations:
+    config.kubernetes.io/local-config: "true"
+spec:
+  info:
+    title: KUBERNETES
+    source:
+      repo: https://github.com/GoogleCloudPlatform/terraform-cloud-deployment-gke.git
+      sourceType: git
+      dir: /infra/modules/kubernetes
+    actuationTool:
+      flavor: Terraform
+      version: ">= 0.13"
+    description: {}
+  content:
+    examples:
+    - name: simple_example
+      location: examples/simple_example
+  interfaces:
+    variables:
+    - name: cluster_name
+      description: The name of the cluster
+      varType: string
+      defaultValue: null
+      required: true
+    - name: google_cloud_service_account_iam_roles
+      description: the list of permissions for gcp service account
+      varType: list(string)
+      defaultValue: null
+      required: true
+    - name: google_cloud_service_account_id
+      description: gcp service account's id
+      varType: string
+      defaultValue: null
+      required: true
+    - name: k8s_namespace_name
+      description: kubernetes namespace name
+      varType: string
+      defaultValue: null
+      required: true
+    - name: k8s_service_account_name
+      description: kubernetes service account for pods
+      varType: string
+      defaultValue: null
+      required: true
+    - name: labels
+      description: A map of key/value label pairs to assign to the resources.
+      varType: map(string)
+      defaultValue: {}
+    - name: network_self_link
+      description: The VPC network self_link to host the k8s cluster
+      varType: string
+      defaultValue: null
+      required: true
+    - name: project_id
+      description: GCP project ID.
+      varType: string
+      defaultValue: null
+      required: true
+    - name: region
+      description: The region to host the k8s cluster
+      varType: string
+      defaultValue: null
+      required: true
+    - name: zones
+      description: The zones to host the k8s cluster
+      varType: list(string)
+      defaultValue: null
+      required: true
+    outputs:
+    - name: cluster_info
+      description: GKE cluster information containing name, location and namespace
+    - name: control_plane
+      description: Cluster informations
+    - name: google_cloud_service_account_email
+      description: Google Cloud service account's email
+  requirements:
+    roles:
+    - level: Project
+      roles:
+      - roles/storage.admin
+      - roles/iam.serviceAccountAdmin
+      - roles/resourcemanager.projectIamAdmin
+      - roles/editor
+      - roles/datastore.owner
+    services:
+    - cloudresourcemanager.googleapis.com
+    - iam.googleapis.com
+    - storage.googleapis.com
+    - serviceusage.googleapis.com

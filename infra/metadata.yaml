@@ -1,0 +1,105 @@
+apiVersion: blueprints.cloud.google.com/v1alpha1
+kind: BlueprintMetadata
+metadata:
+  name: terraform-cloud-deployment-gke
+  annotations:
+    config.kubernetes.io/local-config: "true"
+spec:
+  info:
+    title: cloud-deployment-gke
+    source:
+      repo: https://github.com/GoogleCloudPlatform/terraform-cloud-deployment-gke.git
+      sourceType: git
+      dir: /infra
+    description: {}
+  content:
+    subBlueprints:
+    - name: firestore
+      location: modules/firestore
+    - name: helm
+      location: modules/helm
+    - name: kubernetes
+      location: modules/kubernetes
+    - name: load-balancer
+      location: modules/load-balancer
+    - name: networking
+      location: modules/networking
+    - name: storage
+      location: modules/storage
+    examples:
+    - name: simple_example
+      location: examples/simple_example
+  interfaces:
+    variables:
+    - name: bucket_location
+      description: Bucket location. https://cloud.google.com/storage/docs/locations
+      varType: string
+      defaultValue: US
+    - name: disable_services_on_destroy
+      description: Whether project services will be disabled when the resources are destroyed.
+      varType: bool
+      defaultValue: false
+    - name: firestore_collection_id
+      description: Firestore collection id
+      varType: string
+      defaultValue: fileMetadata-cdn-gke
+    - name: init
+      description: Initialize resource or not
+      varType: bool
+      defaultValue: true
+    - name: labels
+      description: A map of key/value label pairs to assign to the resources.
+      varType: map(string)
+      defaultValue:
+        app: cloud-deployment-gke-golang
+    - name: project_id
+      description: Google Cloud project ID.
+      varType: string
+      defaultValue: null
+      required: true
+    - name: region
+      description: Google cloud region where the resource will be created.
+      varType: string
+      defaultValue: us-west1
+    - name: zones
+      description: Google cloud zones where the resource will be created.
+      varType: list(string)
+      defaultValue:
+      - us-west1-a
+    outputs:
+    - name: backend_bucket_name
+      description: The name of the backend bucket used for Cloud CDN
+    - name: backend_service_name
+      description: Name of the backend service
+    - name: bucket_name
+      description: Bucket name
+    - name: cluster_info
+      description: The cluster information
+    - name: google_cloud_service_account_email
+      description: Google Cloud service account email
+    - name: k8s_service_account_name
+      description: Kubernetes service account name
+    - name: lb_external_ip
+      description: Frontend IP address of the load balancer
+    - name: lds_firestore
+      description: Firestore resource path
+    - name: lds_resource_path
+      description: Resource path
+    - name: load_balancer_name
+      description: Name of the load balancer
+    - name: namespace
+      description: kubernetes namespace
+  requirements:
+    roles:
+    - level: Project
+      roles:
+      - roles/storage.admin
+      - roles/iam.serviceAccountAdmin
+      - roles/resourcemanager.projectIamAdmin
+      - roles/editor
+      - roles/datastore.owner
+    services:
+    - cloudresourcemanager.googleapis.com
+    - iam.googleapis.com
+    - storage.googleapis.com
+    - serviceusage.googleapis.com
