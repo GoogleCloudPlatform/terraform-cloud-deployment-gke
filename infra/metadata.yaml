@@ -26,7 +26,26 @@ spec:
       sourceType: git
       dir: /infra
     description: {}
+    deploymentDuration:
+      configurationSecs: 60
+      deploymentSecs: 600
+    costEstimate:
+      description: $6 per day
+      url: https://cloud.google.com/kubernetes-engine/pricing#autopilot_mode
+    cloudProducts:
+    - productId: KUBERNETES_SECTION
+      Label: GKE (Autopilot)
+
+    - productId: COMPUTE_SECTION
+      Label: Compute Engine
+
+    - productId: FIRESTORE_SECTION
+      Label: Firestore
+
   content:
+    architecture:
+      diagramUrl: https://www.gstatic.com/pantheon/images/solutions/cloud_deployment_gke_architecture.png
+      documentation:
     subBlueprints:
     - name: firestore
       location: modules/firestore
