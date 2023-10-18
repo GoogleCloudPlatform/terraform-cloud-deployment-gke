@@ -31,15 +31,19 @@ spec:
         bucket_location:
           name: bucket_location
           title: Bucket Location
+          invisible: true
         disable_services_on_destroy:
           name: disable_services_on_destroy
           title: Disable Services On Destroy
+          invisible: true
         firestore_collection_id:
           name: firestore_collection_id
           title: Firestore Collection Id
+          invisible: true
         init:
           name: init
           title: Init
+          invisible: true
         labels:
           name: labels
           title: Labels
@@ -49,6 +53,8 @@ spec:
         region:
           name: region
           title: Region
+          invisible: true
         zones:
           name: zones
           title: Zones
+          invisible: true
