@@ -37,6 +37,7 @@ spec:
       Label: GKE (Autopilot)
 
     - productId: COMPUTE_SECTION
+      Label: Compute Engine
 
     - productId: FIRESTORE_SECTION
       Label: Firestore
