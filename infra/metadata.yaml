@@ -20,7 +20,7 @@ metadata:
     config.kubernetes.io/local-config: "true"
 spec:
   info:
-    title: Cloud-deployment-gke
+    title: Cloud Deployment on GKE
     source:
       repo: https://github.com/GoogleCloudPlatform/terraform-cloud-deployment-gke.git
       sourceType: git
