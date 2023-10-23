@@ -20,7 +20,7 @@ metadata:
     config.kubernetes.io/local-config: "true"
 spec:
   info:
-    title: Cloud Deployment on GKE
+    title: Cloud-deployment-gke
     source:
       repo: https://github.com/GoogleCloudPlatform/terraform-cloud-deployment-gke.git
       sourceType: git
@@ -43,11 +43,14 @@ spec:
 
     - productId: FIRESTORE_SECTION
       label: Firestore
-
   content:
     architecture:
+      description:
+        - The user makes a request to the web application.
+        - Cloud Load Balancer redirects the request to the Kubernete service (running v1 of the application).
+        - The web application serves a response using metadata from a Cloud Firestore database and static images stored in a Cloud Storage bucket.
+        - The developer runs scripts to deploy v2 of the application via the Kubernetes API.
       diagramUrl: https://www.gstatic.com/pantheon/images/solutions/cloud_deployment_gke_architecture.png
-      documentation:
     subBlueprints:
     - name: firestore
       location: modules/firestore
