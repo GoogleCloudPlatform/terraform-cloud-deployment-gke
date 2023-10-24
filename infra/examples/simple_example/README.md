@@ -16,6 +16,7 @@
 | cluster\_location | Cluster info |
 | cluster\_name | Cluster info |
 | cluster\_namespace | Cluster namespace |
+| db\_name | The Firestore database name |
 | load\_balancer\_name | Name of the load balancer |
 
 <!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->

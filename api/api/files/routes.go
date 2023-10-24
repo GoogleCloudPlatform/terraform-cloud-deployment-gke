@@ -239,7 +239,7 @@ func PostFiles(c *gin.Context) {
 	}
 	defer client.Close() // nolint: errcheck
 
-	dbClient, err := firestore.Service.NewClient(ctx)
+	dbClient, err := firestore.Service.NewClientWithDatabase(ctx)
 	if err != nil {
 		api.ResponseServerError(c, err)
 		return
@@ -288,7 +288,7 @@ func UpdateFile(c *gin.Context) {
 	ctx := context.Background()
 	id := c.Param("id")
 
-	dbClient, err := firestore.Service.NewClient(ctx)
+	dbClient, err := firestore.Service.NewClientWithDatabase(ctx)
 	if err != nil {
 		api.ResponseServerError(c, err)
 		return
@@ -367,7 +367,7 @@ func GetFileList(c *gin.Context) {
 	}
 
 	ctx := context.Background()
-	dbClient, err := firestore.Service.NewClient(ctx)
+	dbClient, err := firestore.Service.NewClientWithDatabase(ctx)
 	if err != nil {
 		api.ResponseServerError(c, err)
 		return
@@ -397,7 +397,7 @@ func DeleteFile(c *gin.Context) {
 	id := c.Param("id")
 
 	var err error
-	dbClient, err := firestore.Service.NewClient(ctx)
+	dbClient, err := firestore.Service.NewClientWithDatabase(ctx)
 	if err != nil {
 		api.ResponseServerError(c, err)
 		return

@@ -28,3 +28,8 @@ variable "collection_fields" {
   description = "collection id with respect to its fields"
   type        = map(any)
 }
+
+variable "firestore_db_name" {
+  description = "firestore database name"
+  type        = string
+}

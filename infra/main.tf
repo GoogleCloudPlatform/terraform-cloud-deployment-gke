@@ -48,8 +48,9 @@ data "google_client_config" "default" {
 
 locals {
   resource_path = "resource"
+  firestore_db_name = "large-data-sharing-${random_id.random_code.hex}"
   collection_fields = {
-    "${var.firestore_collection_id}-golang" = [
+    (var.lds_firestore) = [
       {
         field_path   = "tags"
         array_config = "CONTAINS"
@@ -107,6 +108,11 @@ module "firestore" {
   project_id        = data.google_project.project.project_id
   init              = var.init
   collection_fields = local.collection_fields
+  firestore_db_name = local.firestore_db_name
+}
+
+resource "random_id" "random_code" {
+  byte_length = 4
 }
 
 module "kubernetes" {

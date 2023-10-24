@@ -21,6 +21,7 @@
 | backend\_service\_name | Name of the backend service |
 | bucket\_name | Bucket name |
 | cluster\_info | The cluster information |
+| db\_name | Firestore database name |
 | google\_cloud\_service\_account\_email | Google Cloud service account email |
 | k8s\_service\_account\_name | Kubernetes service account name |
 | lb\_external\_ip | Frontend IP address of the load balancer |

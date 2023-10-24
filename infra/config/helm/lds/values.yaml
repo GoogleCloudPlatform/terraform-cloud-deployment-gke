@@ -24,7 +24,7 @@ region: ${REGION}
 
 k8s_service_account_name: ${K8S_SERVICE_ACCOUNT_NAME}
 
-lds_server_image: 'gcr.io/hsa-public/jss-cd-gke-backend:latest'
+lds_server_image: 'gcr.io/hsa-public/jss-cd-gke-backend:multi-firestore'
 lds_client_image: 'gcr.io/hsa-public/jss-cd-gke-frontend:blue'
 
 config_maps:

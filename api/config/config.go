@@ -26,7 +26,8 @@ type config struct {
 	LDSRestPort              string
 	LDSProject               string
 	LDSBucket                string
-	LDSFirestore             string
+	LDSFirestoreDatabase     string
+	LDSFirestoreCollection   string
 	LDSFirestoreFieldPath    string
 	LDSFirestoreFieldName    string
 	LDSFirestoreFieldSize    string
@@ -55,7 +56,8 @@ func init() {
 		LDSRestPort:              getEnv("LDS_REST_PORT", "8000"),
 		LDSProject:               getEnv("LDS_PROJECT", ""),
 		LDSBucket:                getEnv("LDS_BUCKET", "lds_data"),
-		LDSFirestore:             getEnv("LDS_FIRESTORE", "fileMetadata"),
+		LDSFirestoreCollection:   getEnv("LDS_FIRESTORE_COLLECTION", "fileMetadata"),
+		LDSFirestoreDatabase:     getEnv("LDS_FIRESTORE_DATABASE", "(default)"),
 		LDSFirestoreFieldPath:    getEnv("LDS_FIRESTORE_FIELD_PATH", "path"),
 		LDSFirestoreFieldName:    getEnv("LDS_FIRESTORE_FIELD_NAME", "name"),
 		LDSFirestoreFieldSize:    getEnv("LDS_FIRESTORE_FIELD_SIZE", "size"),

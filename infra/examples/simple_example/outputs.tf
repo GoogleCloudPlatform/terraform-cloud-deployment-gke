@@ -43,3 +43,8 @@ output "backend_service_name" {
   description = "Name of the backend service"
   value       = module.simple.backend_service_name
 }
+
+output "db_name" {
+  description = "The Firestore database name"
+  value       = module.dimple.db_name
+}

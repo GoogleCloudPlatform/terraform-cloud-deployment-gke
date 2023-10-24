@@ -68,3 +68,7 @@ output "cluster_info" {
   description = "The cluster information"
   value       = module.kubernetes.cluster_info
 }
+output "db_name" {
+  description = "Firestore database name"
+  value       = module.firestore.db_name
+}

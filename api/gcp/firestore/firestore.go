@@ -124,7 +124,7 @@ type FileMeta struct {
 }
 
 type service interface {
-	NewClient(context.Context) (Client, error)
+	NewClientWithDatabase(context.Context) (Client, error)
 }
 
 // Service used to creates client for firestore handling.
@@ -133,9 +133,9 @@ var Service service = new(firestoreService)
 type firestoreService struct {
 }
 
-// NewClient creates the client for firestore handling.
-func (*firestoreService) NewClient(ctx context.Context) (Client, error) {
-	client, err := firestore.NewClient(ctx, config.Config.LDSProject)
+// NewClientWithDatabase creates the client for firestore handling.
+func (*firestoreService) NewClientWithDatabase(ctx context.Context) (Client, error) {
+	client, err := firestore.NewClientWithDatabase(ctx, config.Config.LDSProject, config.Config.LDSFirestoreDatabase)
 	if err != nil {
 		return nil, err
 	}
@@ -164,7 +164,7 @@ func (c *firestoreClient) Close() error {
 
 // Get gets the FileMeta from given ID.
 func (c *firestoreClient) Get(ctx context.Context, id string) (*FileMeta, error) {
-	doc := c.client.Collection(config.Config.LDSFirestore).Doc(id)
+	doc := c.client.Collection(config.Config.LDSFirestoreCollection).Doc(id)
 	return getByDoc(ctx, doc)
 }
 
@@ -203,7 +203,7 @@ func (c *firestoreClient) ListByTags(ctx context.Context, tags []string, orderNo
 	ctx, cancel := context.WithTimeout(ctx, timeout)
 	defer cancel()
 
-	files := c.client.Collection(config.Config.LDSFirestore)
+	files := c.client.Collection(config.Config.LDSFirestoreCollection)
 	query := files.OrderBy(config.Config.LDSFirestoreFieldOrderNo, firestore.Desc)
 	if len(tags) != 0 {
 		query = files.Where(config.Config.LDSFirestoreFieldTags, "array-contains-any", tags)
@@ -247,7 +247,7 @@ func (c *firestoreClient) set(ctx context.Context, id string, record interface{}
 	ctxSet, cancel := context.WithTimeout(ctx, timeout)
 	defer cancel()
 
-	doc := c.client.Collection(config.Config.LDSFirestore).Doc(id)
+	doc := c.client.Collection(config.Config.LDSFirestoreCollection).Doc(id)
 	if _, err := doc.Set(ctxSet, record, opt...); err != nil {
 		log.Printf("firestore: failed to write to firestore, error:%v", err)
 		return nil, err
@@ -260,7 +260,7 @@ func (c *firestoreClient) Delete(ctx context.Context, id string) error {
 	ctx, cancel := context.WithTimeout(ctx, timeout)
 	defer cancel()
 
-	if _, err := c.client.Collection(config.Config.LDSFirestore).Doc(id).Delete(ctx); err != nil {
+	if _, err := c.client.Collection(config.Config.LDSFirestoreCollection).Doc(id).Delete(ctx); err != nil {
 		log.Printf("firestore: failed to delete document from firestore: %v", err)
 		return err
 	}
@@ -269,7 +269,7 @@ func (c *firestoreClient) Delete(ctx context.Context, id string) error {
 
 // DeleteAll deletes all the documents in the colletion
 func (c *firestoreClient) DeleteAll(ctx context.Context) error {
-	col := c.client.Collection(config.Config.LDSFirestore)
+	col := c.client.Collection(config.Config.LDSFirestoreCollection)
 	bulkwriter := c.client.BulkWriter(ctx)
 	for {
 		// Delete 50 documents each time.
