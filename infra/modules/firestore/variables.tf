@@ -19,11 +19,6 @@ variable "project_id" {
   type        = string
 }
 
-variable "init" {
-  type        = bool
-  description = "Initialize resource or not"
-}
-
 variable "collection_fields" {
   description = "collection id with respect to its fields"
   type        = map(any)
