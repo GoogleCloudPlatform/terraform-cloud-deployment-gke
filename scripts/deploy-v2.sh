@@ -29,7 +29,9 @@ LDS_FIRESTORE_DATABASE=$(gcloud firestore databases list \
   --format="value(name)" \
   --filter="name:large-data-sharing" \
   --limit=1 \
+  --sort-by=~creationTimestamp \
   | awk -F/ '{print $NF}')
+
 LDS_SERVER_IMAGE="gcr.io/${GCR_PROJECT_ID}/jss-cd-gke-backend:multi-firestore"
 LDS_CLIENT_IMAGE="gcr.io/${GCR_PROJECT_ID}/jss-cd-gke-frontend:green"
 

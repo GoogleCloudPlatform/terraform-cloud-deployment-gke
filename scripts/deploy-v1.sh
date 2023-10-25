@@ -31,6 +31,7 @@ LDS_FIRESTORE_DATABASE=$(gcloud firestore databases list \
   --format="value(name)" \
   --filter="name:large-data-sharing" \
   --limit=1 \
+  --sort-by=~creationTimestamp \
   | awk -F/ '{print $NF}')
 
 # Procedure to deploy v1
