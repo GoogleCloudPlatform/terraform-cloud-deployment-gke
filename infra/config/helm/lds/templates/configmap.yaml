@@ -17,6 +17,7 @@ data:
   LDS_BUCKET: '{{ .Values.config_maps.lds_bucket }}'
   LDS_RESOURCE_PATH: '{{ .Values.config_maps.lds_resource_path }}'
   LDS_FIRESTORE: '{{ .Values.config_maps.lds_firestore }}'
+  LDS_FIRESTORE_DATABASE: '{{ .Values.config_maps.lds_firestore_database }}'
 kind: ConfigMap
 metadata:
   namespace: '{{ .Values.namespace }}'

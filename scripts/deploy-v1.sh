@@ -27,6 +27,11 @@ K8S_SERVICE_ACCOUNT_NAME="cloud-deployment"
 LDS_BUCKET="cloud-deployment-gke-golang-resource-${PROJECT_NUMBER}"
 LDS_RESOURCE_PATH="/resource"
 LDS_FIRESTORE="fileMetadata-cdn-gke-golang"
+LDS_FIRESTORE_DATABASE=$(gcloud firestore databases list \
+  --format="value(name)" \
+  --filter="name:large-data-sharing" \
+  --limit=1 \
+  | awk -F/ '{print $NF}')
 
 # Procedure to deploy v1
 gcloud container clusters get-credentials "${CLUSTER_NAME}" --region "${REGION}"
@@ -40,6 +45,7 @@ helm install \
     --set config_maps.lds_bucket="${LDS_BUCKET}" \
     --set config_maps.lds_resource_path="${LDS_RESOURCE_PATH}" \
     --set config_maps.lds_firestore="${LDS_FIRESTORE}" \
+    --set config_maps.lds_firestore_database="${LDS_FIRESTORE_DATABASE}" \
     lds ../infra/config/helm/lds
 echo -e "\n--------------------------------------------------------- "
 

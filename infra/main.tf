@@ -50,7 +50,7 @@ locals {
   resource_path = "resource"
   firestore_db_name = "large-data-sharing-${random_id.random_code.hex}"
   collection_fields = {
-    (var.lds_firestore) = [
+    (var.firestore_collection_id) = [
       {
         field_path   = "tags"
         array_config = "CONTAINS"

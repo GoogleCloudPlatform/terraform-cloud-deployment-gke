@@ -32,3 +32,4 @@ config_maps:
   lds_bucket: ${LDS_BUCKET}
   lds_resource_path: ${LDS_RESOURCE_PATH}
   lds_firestore: ${LDS_FIRESTORE}
+  lds_firestore_database: ${LDS_FIRESTORE_DATABASE}

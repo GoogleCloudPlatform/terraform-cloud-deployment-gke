@@ -65,6 +65,11 @@ spec:
               configMapKeyRef:
                 key: LDS_FIRESTORE
                 name: '{{ .Values.project_id }}-lds-config-maps-{{ .Values.region }}'
+          - name: LDS_FIRESTORE_DATABASE
+            valueFrom:
+              configMapKeyRef:
+                key: LDS_FIRESTORE_DATABASE
+                name: '{{ .Values.project_id }}-lds-config-maps-{{ .Values.region }}'
 
       - name: '{{ .Values.project_id }}-lds-client-{{ .Values.region }}'
         image: '{{ .Values.lds_client_image }}'

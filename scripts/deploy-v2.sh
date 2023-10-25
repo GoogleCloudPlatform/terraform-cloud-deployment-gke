@@ -25,7 +25,12 @@ K8S_SERVICE_ACCOUNT_NAME="cloud-deployment"
 LDS_BUCKET="cloud-deployment-gke-golang-resource-${PROJECT_NUMBER}"
 LDS_RESOURCE_PATH="/resource"
 LDS_FIRESTORE="fileMetadata-cdn-gke-golang"
-LDS_SERVER_IMAGE="gcr.io/${GCR_PROJECT_ID}/jss-cd-gke-backend:latest"
+LDS_FIRESTORE_DATABASE=$(gcloud firestore databases list \
+  --format="value(name)" \
+  --filter="name:large-data-sharing" \
+  --limit=1 \
+  | awk -F/ '{print $NF}')
+LDS_SERVER_IMAGE="gcr.io/${GCR_PROJECT_ID}/jss-cd-gke-backend:multi-firestore"
 LDS_CLIENT_IMAGE="gcr.io/${GCR_PROJECT_ID}/jss-cd-gke-frontend:green"
 
 # Procedure to deploy V2 rolling update
@@ -42,6 +47,7 @@ helm upgrade \
     --set config_maps.lds_bucket="${LDS_BUCKET}" \
     --set config_maps.lds_resource_path="${LDS_RESOURCE_PATH}" \
     --set config_maps.lds_firestore="${LDS_FIRESTORE}" \
+    --set config_maps.lds_firestore_database="${LDS_FIRESTORE_DATABASE}" \
     lds ../infra/config/helm/lds
 
 # Ouput message for successful deployment
