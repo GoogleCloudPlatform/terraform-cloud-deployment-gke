@@ -37,7 +37,7 @@ spec:
     cloudProducts:
     - productId: search_KUBERNETES_SECTION
       label: GKE (Autopilot)
-      pageUrl: https://cloud.google.com/kubernetes 
+      pageUrl: https://cloud.google.com/kubernetes
 
     - productId: COMPUTE_SECTION
       label: Compute Engine
