@@ -7,7 +7,6 @@
 | bucket\_location | Bucket location. https://cloud.google.com/storage/docs/locations | `string` | `"US"` | no |
 | disable\_services\_on\_destroy | Whether project services will be disabled when the resources are destroyed. | `bool` | `false` | no |
 | firestore\_collection\_id | Firestore collection id | `string` | `"fileMetadata-cdn-gke"` | no |
-| init | Initialize resource or not | `bool` | `true` | no |
 | labels | A map of key/value label pairs to assign to the resources. | `map(string)` | <pre>{<br>  "app": "cloud-deployment-gke-golang"<br>}</pre> | no |
 | project\_id | Google Cloud project ID. | `string` | n/a | yes |
 | region | Google cloud region where the resource will be created. | `string` | `"us-west1"` | no |

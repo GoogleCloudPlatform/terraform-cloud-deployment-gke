@@ -106,7 +106,6 @@ module "firestore" {
   source = "./modules/firestore"
 
   project_id        = data.google_project.project.project_id
-  init              = var.init
   collection_fields = local.collection_fields
   firestore_db_name = local.firestore_db_name
 }
