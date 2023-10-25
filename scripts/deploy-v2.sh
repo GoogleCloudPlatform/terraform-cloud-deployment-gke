@@ -55,15 +55,8 @@ echo -e "\n--------------------------------------------------------- "
 # Get Cloud Load Balancer configs
 FORWARDING_RULE_NAME="cloud-deployment-gke-golang"
 FORWARDING_RULE_IP="$(gcloud compute forwarding-rules list --filter="${FORWARDING_RULE_NAME}" --format="value(IP_ADDRESS)")"
-echo "V2 version was deployed successfully!
-refresh the home page to observe v1 is replaced by V2 load balancer ip: ${FORWARDING_RULE_IP}"
+kubectl rollout status deployment ${PROJECT_ID}-lds-deployment-${REGION} -n ${NAMESPACE}
+echo -e "V2 version was deployed successfully!\nRefresh the home page to observe v1 is replaced by V2 load balancer ip: ${FORWARDING_RULE_IP}"
 echo -e "---------------------------------------------------------\n"
 
-# Check pod rolling update status
-TIMES=1
-while [ "$TIMES" -le 30 ]
-do
-    kubectl get pods -n "${NAMESPACE}"
-    sleep 0.5
-    (( TIMES++ ))
-done
+

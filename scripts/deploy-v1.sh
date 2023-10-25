@@ -76,6 +76,6 @@ echo -e "\n--------------------------------------------------------- "
 # Get Cloud Load Balancer configs
 FORWARDING_RULE_NAME="cloud-deployment-gke-golang"
 FORWARDING_RULE_IP="$(gcloud compute forwarding-rules list --filter="${FORWARDING_RULE_NAME}" --format="value(IP_ADDRESS)")"
-echo "V1 version was deployed successfully!
-access the web UI home page through the external load balancer IP: http://${FORWARDING_RULE_IP}/"
+kubectl rollout status deployment ${PROJECT_ID}-lds-deployment-${REGION} -n ${NAMESPACE}
+echo -e "V1 version was deployed successfully!\naccess the web UI home page through the external load balancer IP: http://${FORWARDING_RULE_IP}/"
 echo -e "---------------------------------------------------------\n"
