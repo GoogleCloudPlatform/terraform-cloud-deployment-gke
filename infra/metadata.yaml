@@ -37,12 +37,16 @@ spec:
     cloudProducts:
     - productId: search_KUBERNETES_SECTION
       label: GKE (Autopilot)
+      pageUrl: https://cloud.google.com/kubernetes 
 
     - productId: COMPUTE_SECTION
       label: Compute Engine
+      pageUrl: https://cloud.google.com/compute
 
     - productId: FIRESTORE_SECTION
       label: Firestore
+      pageUrl: https://cloud.google.com/firestore
+
   content:
     architecture:
       description:
