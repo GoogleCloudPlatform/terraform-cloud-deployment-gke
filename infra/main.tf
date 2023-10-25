@@ -47,7 +47,7 @@ data "google_client_config" "default" {
 }
 
 locals {
-  resource_path = "resource"
+  resource_path     = "resource"
   firestore_db_name = "large-data-sharing-${random_id.random_code.hex}"
   collection_fields = {
     (var.firestore_collection_id) = [
