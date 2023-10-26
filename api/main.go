@@ -49,7 +49,7 @@ func main() {
 	}
 
 	server := &http.Server{
-		Addr:    ":" + config.Config.LDSRestPort,
+		Addr:    ":" + config.Config.CDRestPort,
 		Handler: router,
 	}
 	if err := server.ListenAndServe(); err != nil {

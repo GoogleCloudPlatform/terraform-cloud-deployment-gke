@@ -262,11 +262,11 @@ func PostFiles(c *gin.Context) {
 
 		// Add data to firestore.
 		record := map[string]interface{}{
-			config.Config.LDSFirestoreFieldPath:    path,
-			config.Config.LDSFirestoreFieldName:    filename,
-			config.Config.LDSFirestoreFieldSize:    size,
-			config.Config.LDSFirestoreFieldTags:    tags,
-			config.Config.LDSFirestoreFieldOrderNo: getOrderNo(id),
+			config.Config.CDFirestoreFieldPath:    path,
+			config.Config.CDFirestoreFieldName:    filename,
+			config.Config.CDFirestoreFieldSize:    size,
+			config.Config.CDFirestoreFieldTags:    tags,
+			config.Config.CDFirestoreFieldOrderNo: getOrderNo(id),
 		}
 		docSnap, err := dbClient.Create(ctx, id, record)
 		if err != nil {
@@ -322,8 +322,8 @@ func UpdateFile(c *gin.Context) {
 	}
 
 	fields := map[string]interface{}{
-		config.Config.LDSFirestoreFieldTags:    tags,
-		config.Config.LDSFirestoreFieldOrderNo: getOrderNo(id),
+		config.Config.CDFirestoreFieldTags:    tags,
+		config.Config.CDFirestoreFieldOrderNo: getOrderNo(id),
 	}
 	if file != nil {
 		log.Println("file:", file.Filename)
@@ -340,9 +340,9 @@ func UpdateFile(c *gin.Context) {
 			api.ResponseServerError(c, err)
 			return
 		}
-		fields[config.Config.LDSFirestoreFieldPath] = newPath
-		fields[config.Config.LDSFirestoreFieldName] = filepath.Base(file.Filename)
-		fields[config.Config.LDSFirestoreFieldSize] = size
+		fields[config.Config.CDFirestoreFieldPath] = newPath
+		fields[config.Config.CDFirestoreFieldName] = filepath.Base(file.Filename)
+		fields[config.Config.CDFirestoreFieldSize] = size
 	}
 	newMeta, err := dbClient.Merge(ctx, id, fields)
 	if err != nil {

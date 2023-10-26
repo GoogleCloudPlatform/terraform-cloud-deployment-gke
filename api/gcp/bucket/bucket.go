@@ -74,7 +74,7 @@ func (c *bucketClient) TransWrite(ctx context.Context, path string, reader io.Re
 	ctx, cancel := context.WithTimeout(ctx, timeout)
 	defer cancel()
 
-	writer := c.client.Bucket(config.Config.LDSBucket).Object(path).NewWriter(ctx)
+	writer := c.client.Bucket(config.Config.CDBucket).Object(path).NewWriter(ctx)
 	defer func() {
 		err = writer.Close() // Propagate the error if failed to close.
 	}()
@@ -91,7 +91,7 @@ func (c *bucketClient) Delete(ctx context.Context, paths ...string) error {
 	ctx, cancel := context.WithTimeout(ctx, timeout)
 	defer cancel()
 
-	bucketHandler := c.client.Bucket(config.Config.LDSBucket)
+	bucketHandler := c.client.Bucket(config.Config.CDBucket)
 	for _, path := range paths {
 		o := bucketHandler.Object(path)
 		if err := o.Delete(ctx); err != nil {
@@ -108,7 +108,7 @@ func (c *bucketClient) Delete(ctx context.Context, paths ...string) error {
 
 // DeleteAll deletes all files in the bucket.
 func (c *bucketClient) DeleteAll(ctx context.Context) error {
-	bucketHandler := c.client.Bucket(config.Config.LDSBucket)
+	bucketHandler := c.client.Bucket(config.Config.CDBucket)
 	it := bucketHandler.Objects(ctx, nil)
 	for {
 		attrs, err := it.Next()

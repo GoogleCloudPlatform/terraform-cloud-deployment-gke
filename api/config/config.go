@@ -47,7 +47,7 @@ func init() {
 	if mockFlag {
 		log.Println("enable mock mode!")
 	}
-	resourcePath := os.Getenv("LDS_RESOURCE_PATH")
+	resourcePath := os.Getenv("CD_RESOURCE_PATH")
 	bucketBasePath := strings.TrimLeft(resourcePath, "/")
 	resourceBasePath := resourcePath[0 : len(resourcePath)-len(bucketBasePath)]
 	bucketBasePath = strings.TrimRight(bucketBasePath, "/") + "/" // Make sure the path end with "/".
