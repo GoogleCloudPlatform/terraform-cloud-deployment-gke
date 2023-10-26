@@ -16,9 +16,9 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   namespace: '{{ .Values.namespace }}'
-  name: '{{ .Values.project_id }}-lds-deployment-{{ .Values.region }}'
+  name: '{{ .Values.project_id }}-cd-deployment-{{ .Values.region }}'
   labels:
-    app: lds
+    app: cd
     operator: '{{ .Values.operator }}'
 spec:
   replicas: 3
@@ -29,50 +29,50 @@ spec:
       maxSurge: 1
   selector:
     matchLabels:
-      app: lds
+      app: cd
   template:
     metadata:
       labels:
-        app: lds
+        app: cd
     spec:
       serviceAccountName: '{{ .Values.k8s_service_account_name }}'
       containers:
-      - name: '{{ .Values.project_id }}-lds-server-{{ .Values.region }}'
-        image: '{{ .Values.lds_server_image }}'
+      - name: '{{ .Values.project_id }}-cd-server-{{ .Values.region }}'
+        image: '{{ .Values.cd_server_image }}'
         resources:
           requests:
             cpu: "500m"
             memory: "500Mi"
         ports:
-        - containerPort: {{ .Values.config_maps.lds_rest_port }}
+        - containerPort: {{ .Values.config_maps.cd_rest_port }}
         env:
-          - name: LDS_PROJECT
+          - name: CD_PROJECT
             value: '{{ .Values.project_id }}'
-          - name: LDS_REST_PORT
-            value: '{{ .Values.config_maps.lds_rest_port }}'
-          - name: LDS_BUCKET
+          - name: CD_REST_PORT
+            value: '{{ .Values.config_maps.cd_rest_port }}'
+          - name: CD_BUCKET
             valueFrom:
               configMapKeyRef:
-                key: LDS_BUCKET
-                name: '{{ .Values.project_id }}-lds-config-maps-{{ .Values.region }}'
-          - name: LDS_RESOURCE_PATH
+                key: CD_BUCKET
+                name: '{{ .Values.project_id }}-cd-config-maps-{{ .Values.region }}'
+          - name: CD_RESOURCE_PATH
             valueFrom:
               configMapKeyRef:
-                key: LDS_RESOURCE_PATH
-                name: '{{ .Values.project_id }}-lds-config-maps-{{ .Values.region }}'
-          - name: LDS_FIRESTORE
+                key: CD_RESOURCE_PATH
+                name: '{{ .Values.project_id }}-cd-config-maps-{{ .Values.region }}'
+          - name: CD_FIRESTORE
             valueFrom:
               configMapKeyRef:
-                key: LDS_FIRESTORE
-                name: '{{ .Values.project_id }}-lds-config-maps-{{ .Values.region }}'
-          - name: LDS_FIRESTORE_DATABASE
+                key: CD_FIRESTORE
+                name: '{{ .Values.project_id }}-cd-config-maps-{{ .Values.region }}'
+          - name: CD_FIRESTORE_DATABASE
             valueFrom:
               configMapKeyRef:
-                key: LDS_FIRESTORE_DATABASE
-                name: '{{ .Values.project_id }}-lds-config-maps-{{ .Values.region }}'
+                key: CD_FIRESTORE_DATABASE
+                name: '{{ .Values.project_id }}-cd-config-maps-{{ .Values.region }}'
 
-      - name: '{{ .Values.project_id }}-lds-client-{{ .Values.region }}'
-        image: '{{ .Values.lds_client_image }}'
+      - name: '{{ .Values.project_id }}-cd-client-{{ .Values.region }}'
+        image: '{{ .Values.cd_client_image }}'
         resources:
           requests:
             cpu: "500m"
@@ -80,8 +80,8 @@ spec:
         ports:
         - containerPort: 80
         env:
-        - name: LDS_REST_URL
-          value: 'http://localhost:{{ .Values.config_maps.lds_rest_port }}'
+        - name: CD_REST_URL
+          value: 'http://localhost:{{ .Values.config_maps.cd_rest_port }}'
         readinessProbe:
           httpGet:
             port: 80

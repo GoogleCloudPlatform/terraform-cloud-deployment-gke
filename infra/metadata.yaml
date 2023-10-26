@@ -1,17 +1,3 @@
-# Copyright 2023 Google LLC
-#
-# Licensed under the Apache License, Version 2.0 (the "License");
-# you may not use this file except in compliance with the License.
-# You may obtain a copy of the License at
-#
-#      http://www.apache.org/licenses/LICENSE-2.0
-#
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS,
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-# See the License for the specific language governing permissions and
-# limitations under the License.
-
 apiVersion: blueprints.cloud.google.com/v1alpha1
 kind: BlueprintMetadata
 metadata:
@@ -20,128 +6,121 @@ metadata:
     config.kubernetes.io/local-config: "true"
 spec:
   info:
-    title: Cloud Deployment on GKE
+    title: cloud-deployment-gke
     source:
       repo: https://github.com/GoogleCloudPlatform/terraform-cloud-deployment-gke.git
       sourceType: git
       dir: /infra
-    description:
-      tagline: Deploy a change to a live stateful service without disrupting downstream customers (Go on GKE).
-      detailed: This solution showcases deployment of modern containerized applications to GKE, as well as deploying changes to those applications.
+    description: {}
     deploymentDuration:
-      configurationSecs: 60
-      deploymentSecs: 600
+      configurationSecs: "60"
+      deploymentSecs: "600"
     costEstimate:
       description: $6 per day
       url: https://cloud.google.com/kubernetes-engine/pricing#autopilot_mode
     cloudProducts:
-    - productId: search_KUBERNETES_SECTION
-      label: GKE (Autopilot)
-      pageUrl: https://cloud.google.com/kubernetes
-
-    - productId: COMPUTE_SECTION
-      label: Compute Engine
-      pageUrl: https://cloud.google.com/compute
-
-    - productId: FIRESTORE_SECTION
-      label: Firestore
-      pageUrl: https://cloud.google.com/firestore
-
+      - productId: search_KUBERNETES_SECTION
+        pageUrl: https://cloud.google.com/kubernetes
+        label: GKE (Autopilot)
+      - productId: COMPUTE_SECTION
+        pageUrl: https://cloud.google.com/compute
+        label: Compute Engine
+      - productId: FIRESTORE_SECTION
+        pageUrl: https://cloud.google.com/firestore
+        label: Firestore
   content:
     architecture:
+      diagramUrl: https://www.gstatic.com/pantheon/images/solutions/cloud_deployment_gke_architecture.png
       description:
         - The user makes a request to the web application.
         - Cloud Load Balancer redirects the request to the Kubernete service (running v1 of the application).
         - The web application serves a response using metadata from a Cloud Firestore database and static images stored in a Cloud Storage bucket.
         - The developer runs scripts to deploy v2 of the application via the Kubernetes API.
-      diagramUrl: https://www.gstatic.com/pantheon/images/solutions/cloud_deployment_gke_architecture.png
     subBlueprints:
-    - name: firestore
-      location: modules/firestore
-    - name: helm
-      location: modules/helm
-    - name: kubernetes
-      location: modules/kubernetes
-    - name: load-balancer
-      location: modules/load-balancer
-    - name: networking
-      location: modules/networking
-    - name: storage
-      location: modules/storage
+      - name: firestore
+        location: modules/firestore
+      - name: helm
+        location: modules/helm
+      - name: kubernetes
+        location: modules/kubernetes
+      - name: load-balancer
+        location: modules/load-balancer
+      - name: networking
+        location: modules/networking
+      - name: storage
+        location: modules/storage
     examples:
-    - name: simple_example
-      location: examples/simple_example
+      - name: simple_example
+        location: examples/simple_example
   interfaces:
     variables:
-    - name: bucket_location
-      description: Bucket location. https://cloud.google.com/storage/docs/locations
-      varType: string
-      defaultValue: US
-    - name: disable_services_on_destroy
-      description: Whether project services will be disabled when the resources are destroyed.
-      varType: bool
-      defaultValue: false
-    - name: firestore_collection_id
-      description: Firestore collection id
-      varType: string
-      defaultValue: fileMetadata-cdn-gke
-    - name: init
-      description: Initialize resource or not
-      varType: bool
-      defaultValue: true
-    - name: labels
-      description: A map of key/value label pairs to assign to the resources.
-      varType: map(string)
-      defaultValue:
-        app: cloud-deployment-gke-golang
-    - name: project_id
-      description: Google Cloud project ID.
-      varType: string
-      defaultValue: null
-      required: true
-    - name: region
-      description: Google cloud region where the resource will be created.
-      varType: string
-      defaultValue: us-west1
-    - name: zones
-      description: Google cloud zones where the resource will be created.
-      varType: list(string)
-      defaultValue:
-      - us-west1-a
+      - name: bucket_location
+        description: Bucket location. https://cloud.google.com/storage/docs/locations
+        varType: string
+        defaultValue: US
+      - name: disable_services_on_destroy
+        description: Whether project services will be disabled when the resources are destroyed.
+        varType: bool
+        defaultValue: false
+      - name: firestore_collection_id
+        description: Firestore collection id
+        varType: string
+        defaultValue: fileMetadata-cdn-gke
+      - name: labels
+        description: A map of key/value label pairs to assign to the resources.
+        varType: map(string)
+        defaultValue:
+          app: cloud-deployment-gke-golang
+      - name: project_id
+        description: Google Cloud project ID.
+        varType: string
+        defaultValue: null
+        required: true
+      - name: region
+        description: Google cloud region where the resource will be created.
+        varType: string
+        defaultValue: us-west1
+      - name: zones
+        description: Google cloud zones where the resource will be created.
+        varType: list(string)
+        defaultValue:
+          - us-west1-a
     outputs:
-    - name: backend_bucket_name
-      description: The name of the backend bucket used for Cloud CDN
-    - name: backend_service_name
-      description: Name of the backend service
-    - name: bucket_name
-      description: Bucket name
-    - name: cluster_info
-      description: The cluster information
-    - name: google_cloud_service_account_email
-      description: Google Cloud service account email
-    - name: k8s_service_account_name
-      description: Kubernetes service account name
-    - name: lb_external_ip
-      description: Frontend IP address of the load balancer
-    - name: lds_firestore
-      description: Firestore resource path
-    - name: lds_resource_path
-      description: Resource path
-    - name: load_balancer_name
-      description: Name of the load balancer
-    - name: namespace
-      description: kubernetes namespace
+      - name: backend_bucket_name
+        description: The name of the backend bucket used for Cloud CDN
+      - name: backend_service_name
+        description: Name of the backend service
+      - name: bucket_name
+        description: Bucket name
+      - name: cd_firestore
+        description: Firestore resource path
+      - name: cd_resource_path
+        description: Resource path
+      - name: cluster_info
+        description: The cluster information
+      - name: db_name
+        description: Firestore database name
+      - name: google_cloud_service_account_email
+        description: Google Cloud service account email
+      - name: k8s_service_account_name
+        description: Kubernetes service account name
+      - name: lb_external_ip
+        description: Frontend IP address of the load balancer
+      - name: load_balancer_name
+        description: Name of the load balancer
+      - name: namespace
+        description: kubernetes namespace
   requirements:
     roles:
-    - level: Project
-      roles:
-      - roles/storage.admin
-      - roles/iam.serviceAccountAdmin
-      - roles/resourcemanager.projectIamAdmin
-      - roles/editor
-      - roles/datastore.owner
+      - level: Project
+        roles:
+          - roles/storage.admin
+          - roles/iam.serviceAccountAdmin
+          - roles/resourcemanager.projectIamAdmin
+          - roles/editor
+          - roles/datastore.owner
     services:
-    - cloudresourcemanager.googleapis.com
-    - iam.googleapis.com
-    - storage.googleapis.com
-    - serviceusage.googleapis.com
+      - cloudresourcemanager.googleapis.com
+      - iam.googleapis.com
+      - storage.googleapis.com
+      - serviceusage.googleapis.com

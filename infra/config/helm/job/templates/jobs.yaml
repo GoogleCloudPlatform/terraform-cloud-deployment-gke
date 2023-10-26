@@ -16,7 +16,7 @@ apiVersion: batch/v1
 kind: Job
 metadata:
   namespace: '{{ .Values.namespace }}'
-  name: '{{ .Values.project_id }}-lds-job-{{ .Values.region }}'
+  name: '{{ .Values.project_id }}-cd-job-{{ .Values.region }}'
   labels:
     operator: '{{ .Values.operator }}'
 spec:
@@ -35,10 +35,10 @@ spec:
         - /bin/sh
         - -c
         - |
-            curl -s -X DELETE $LDS_SERVER:80/api/reset
+            curl -s -X DELETE $CD_SERVER:80/api/reset
         env:
-          - name: LDS_SERVER
-            value: '{{ .Values.project_id }}-lds-svc-{{ .Values.region }}.{{ .Values.namespace }}.svc.cluster.local'
+          - name: CD_SERVER
+            value: '{{ .Values.project_id }}-cd-svc-{{ .Values.region }}.{{ .Values.namespace }}.svc.cluster.local'
       containers:
       - name: migration-data-job
         image: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
@@ -50,15 +50,15 @@ spec:
         - /bin/bash
         - -c
         - |
-            gsutil cp gs://${LDS_INITIALIZATION_BUCKET_NAME}/execution.sh .
-            gsutil cp gs://${LDS_INITIALIZATION_BUCKET_NAME}/upload.sh .
-            uri=${LDS_SERVER}:80
-            bash execution.sh $LDS_INITIALIZATION_BUCKET_NAME $LDS_INITIALIZATION_ARCHIVE_FILE_NAME $uri
+            gsutil cp gs://${CD_INITIALIZATION_BUCKET_NAME}/execution.sh .
+            gsutil cp gs://${CD_INITIALIZATION_BUCKET_NAME}/upload.sh .
+            uri=${CD_SERVER}:80
+            bash execution.sh $CD_INITIALIZATION_BUCKET_NAME $CD_INITIALIZATION_ARCHIVE_FILE_NAME $uri
         env:
-          - name: LDS_SERVER
-            value: '{{ .Values.project_id }}-lds-svc-{{ .Values.region }}.{{ .Values.namespace }}.svc.cluster.local'
-          - name: LDS_INITIALIZATION_BUCKET_NAME
-            value: '{{ .Values.lds_initialization_bucket_name }}'
-          - name: LDS_INITIALIZATION_ARCHIVE_FILE_NAME
-            value: '{{ .Values.lds_initialization_archive_file_name }}'
+          - name: CD_SERVER
+            value: '{{ .Values.project_id }}-cd-svc-{{ .Values.region }}.{{ .Values.namespace }}.svc.cluster.local'
+          - name: CD_INITIALIZATION_BUCKET_NAME
+            value: '{{ .Values.cd_initialization_bucket_name }}'
+          - name: CD_INITIALIZATION_ARCHIVE_FILE_NAME
+            value: '{{ .Values.cd_initialization_archive_file_name }}'
       restartPolicy: Never

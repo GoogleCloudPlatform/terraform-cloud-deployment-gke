@@ -48,7 +48,7 @@ data "google_client_config" "default" {
 
 locals {
   resource_path     = "resource"
-  firestore_db_name = "large-data-sharing-${random_id.random_code.hex}"
+  firestore_db_name = "cloud-deployment-gke-${random_id.random_code.hex}"
   collection_fields = {
     (var.firestore_collection_id) = [
       {
@@ -61,7 +61,7 @@ locals {
       },
     ]
   }
-  lds_firestore            = [for key, value in local.collection_fields : key][0]
+  cd_firestore            = [for key, value in local.collection_fields : key][0]
   namespace                = "cloud-deployment"
   k8s_service_account_name = "cloud-deployment"
   base_entries = [

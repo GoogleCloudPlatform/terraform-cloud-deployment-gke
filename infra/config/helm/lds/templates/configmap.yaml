@@ -14,14 +14,14 @@
 
 apiVersion: v1
 data:
-  LDS_BUCKET: '{{ .Values.config_maps.lds_bucket }}'
-  LDS_RESOURCE_PATH: '{{ .Values.config_maps.lds_resource_path }}'
-  LDS_FIRESTORE: '{{ .Values.config_maps.lds_firestore }}'
-  LDS_FIRESTORE_DATABASE: '{{ .Values.config_maps.lds_firestore_database }}'
+  CD_BUCKET: '{{ .Values.config_maps.cd_bucket }}'
+  CD_RESOURCE_PATH: '{{ .Values.config_maps.cd_resource_path }}'
+  CD_FIRESTORE: '{{ .Values.config_maps.cd_firestore }}'
+  CD_FIRESTORE_DATABASE: '{{ .Values.config_maps.cd_firestore_database }}'
 kind: ConfigMap
 metadata:
   namespace: '{{ .Values.namespace }}'
   labels:
-    app: lds
+    app: cd
     operator: '{{ .Values.operator }}'
-  name: '{{ .Values.project_id }}-lds-config-maps-{{ .Values.region }}'
+  name: '{{ .Values.project_id }}-cd-config-maps-{{ .Values.region }}'

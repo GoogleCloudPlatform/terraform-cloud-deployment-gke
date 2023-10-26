@@ -57,7 +57,7 @@ steps:
 substitutions:
   _BACKEND_IMAGE_REPO_NAME: 'jss-cd-gke-backend'
   _FRONTEND_IMAGE_REPO_NAME: 'jss-cd-gke-frontend'
-  _BACKEND_IMAGE_TAG: 'latest'
+  _BACKEND_IMAGE_TAG: 'multi-firestore'
 
 options:
   logging: 'CLOUD_LOGGING_ONLY'

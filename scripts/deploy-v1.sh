@@ -24,10 +24,10 @@ ZONE="us-west1-a"
 # Deployment configs
 NAMESPACE="cloud-deployment"
 K8S_SERVICE_ACCOUNT_NAME="cloud-deployment"
-LDS_BUCKET="cloud-deployment-gke-golang-resource-${PROJECT_NUMBER}"
-LDS_RESOURCE_PATH="/resource"
-LDS_FIRESTORE="fileMetadata-cdn-gke-golang"
-LDS_FIRESTORE_DATABASE=$(gcloud firestore databases list \
+CD_BUCKET="cloud-deployment-gke-golang-resource-${PROJECT_NUMBER}"
+CD_RESOURCE_PATH="/resource"
+CD_FIRESTORE="fileMetadata-cdn-gke-golang"
+CD_FIRESTORE_DATABASE=$(gcloud firestore databases list \
   --format="value(name)" \
   --filter="name:large-data-sharing" \
   --limit=1 \
@@ -43,11 +43,11 @@ helm install \
     --set project_id="${PROJECT_ID}" \
     --set region="${REGION}" \
     --set k8s_service_account_name="${K8S_SERVICE_ACCOUNT_NAME}" \
-    --set config_maps.lds_bucket="${LDS_BUCKET}" \
-    --set config_maps.lds_resource_path="${LDS_RESOURCE_PATH}" \
-    --set config_maps.lds_firestore="${LDS_FIRESTORE}" \
-    --set config_maps.lds_firestore_database="${LDS_FIRESTORE_DATABASE}" \
-    lds ../infra/config/helm/lds
+    --set config_maps.cd_bucket="${CD_BUCKET}" \
+    --set config_maps.cd_resource_path="${CD_RESOURCE_PATH}" \
+    --set config_maps.cd_firestore="${CD_FIRESTORE}" \
+    --set config_maps.cd_firestore_database="${CD_FIRESTORE_DATABASE}" \
+    cd ../infra/config/helm/cd
 echo -e "\n--------------------------------------------------------- "
 
 helm install \
@@ -77,6 +77,6 @@ echo -e "\n--------------------------------------------------------- "
 # Get Cloud Load Balancer configs
 FORWARDING_RULE_NAME="cloud-deployment-gke-golang"
 FORWARDING_RULE_IP="$(gcloud compute forwarding-rules list --filter="${FORWARDING_RULE_NAME}" --format="value(IP_ADDRESS)")"
-kubectl rollout status deployment "${PROJECT_ID}"-lds-deployment-"${REGION}" -n "${NAMESPACE}"
+kubectl rollout status deployment "${PROJECT_ID}"-cd-deployment-"${REGION}" -n "${NAMESPACE}"
 echo -e "V1 version was deployed successfully!\naccess the web UI home page through the external load balancer IP: http://${FORWARDING_RULE_IP}/"
 echo -e "---------------------------------------------------------\n"
