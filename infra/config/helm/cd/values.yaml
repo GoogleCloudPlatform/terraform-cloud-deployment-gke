@@ -25,7 +25,7 @@ region: ${REGION}
 k8s_service_account_name: ${K8S_SERVICE_ACCOUNT_NAME}
 
 cd_server_image: 'gcr.io/hsa-public/jss-cd-gke-backend:multi-firestore'
-ld_client_image: 'gcr.io/hsa-public/jss-cd-gke-frontend:blue'
+cd_client_image: 'gcr.io/hsa-public/jss-cd-gke-frontend:blue'
 
 config_maps:
   cd_rest_port: 8000
