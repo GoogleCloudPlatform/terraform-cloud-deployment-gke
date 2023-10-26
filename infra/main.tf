@@ -61,7 +61,7 @@ locals {
       },
     ]
   }
-  cd_firestore            = [for key, value in local.collection_fields : key][0]
+  cd_firestore             = [for key, value in local.collection_fields : key][0]
   namespace                = "cloud-deployment"
   k8s_service_account_name = "cloud-deployment"
   base_entries = [

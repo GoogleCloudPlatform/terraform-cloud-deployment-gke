@@ -19,13 +19,13 @@
 | backend\_bucket\_name | The name of the backend bucket used for Cloud CDN |
 | backend\_service\_name | Name of the backend service |
 | bucket\_name | Bucket name |
+| cd\_firestore | Firestore resource path |
+| cd\_resource\_path | Resource path |
 | cluster\_info | The cluster information |
 | db\_name | Firestore database name |
 | google\_cloud\_service\_account\_email | Google Cloud service account email |
 | k8s\_service\_account\_name | Kubernetes service account name |
 | lb\_external\_ip | Frontend IP address of the load balancer |
-| lds\_firestore | Firestore resource path |
-| lds\_resource\_path | Resource path |
 | load\_balancer\_name | Name of the load balancer |
 | namespace | kubernetes namespace |
 
