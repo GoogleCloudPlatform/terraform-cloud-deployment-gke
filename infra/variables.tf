@@ -52,12 +52,6 @@ variable "bucket_location" {
   }
 }
 
-variable "init" {
-  type        = bool
-  description = "Initialize resource or not"
-  default     = true
-}
-
 variable "labels" {
   type        = map(string)
   description = "A map of key/value label pairs to assign to the resources."
@@ -71,3 +65,5 @@ variable "firestore_collection_id" {
   type        = string
   default     = "fileMetadata-cdn-gke"
 }
+
+

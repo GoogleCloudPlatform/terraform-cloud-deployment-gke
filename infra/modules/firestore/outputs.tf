@@ -14,12 +14,7 @@
  * limitations under the License.
  */
 
-terraform {
-  required_version = ">= 0.13"
-  required_providers {
-    google = {
-      source  = "hashicorp/google"
-      version = ">= 4.57, <= 4.84, != 4.75.0"
-    }
-  }
+output "db_name" {
+  description = "Firestore database name"
+  value       = google_firestore_database.default.name
 }

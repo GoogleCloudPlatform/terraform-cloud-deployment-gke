@@ -19,7 +19,7 @@ ZONE="us-west1-a"
 
 # helm delete
 helm delete job
-helm delete lds
+helm delete cd
 
 GOOGLE_CLOUD_NEG="$(gcloud compute network-endpoint-groups describe cloud-deployment-gke-golang \
     --project="${PROJECT_ID}" \

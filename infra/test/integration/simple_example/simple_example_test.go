@@ -66,6 +66,11 @@ func TestSimpleExample(t *testing.T) {
 		backendService := gcloud.Run(t, fmt.Sprintf("compute forwarding-rules list --filter='%s' --format=json", backendServiceName), gcloudArgs)
 		assert.NotEmpty(backendService)
 
+		// Check if a new Firestors database exists
+		firestoreDbName := example.GetStringOutput("db_name")
+		firestoreDb := gcloud.Run(t, fmt.Sprintf("firestore databases describe --database=%s --format=json", firestoreDbName), gcloudArgs)
+		assert.NotEmpty(firestoreDb)
+
 	})
 	example.Test()
 }

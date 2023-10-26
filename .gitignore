@@ -42,6 +42,7 @@ replay_pid*
 node_modules/
 frontend/package-lock.json
 .npm
+frontend/.angular/
 
 # Local files
 .DS_Store

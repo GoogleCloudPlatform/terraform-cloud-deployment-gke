@@ -15,20 +15,17 @@
  */
 
 resource "google_firestore_database" "default" {
-  count       = var.init ? 1 : 0
   project     = var.project_id
-  name        = "(default)"
+  name        = var.firestore_db_name
   location_id = "nam5" //US
   type        = "FIRESTORE_NATIVE"
 }
 
 resource "google_firestore_index" "meta" {
-  depends_on = [
-    google_firestore_database.default
-  ]
 
   for_each   = var.collection_fields
   collection = each.key
+  database   = google_firestore_database.default.name
   dynamic "fields" {
     for_each = each.value
     iterator = field

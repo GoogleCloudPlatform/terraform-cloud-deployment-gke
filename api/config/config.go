@@ -23,18 +23,19 @@ import (
 )
 
 type config struct {
-	LDSRestPort              string
-	LDSProject               string
-	LDSBucket                string
-	LDSFirestore             string
-	LDSFirestoreFieldPath    string
-	LDSFirestoreFieldName    string
-	LDSFirestoreFieldSize    string
-	LDSFirestoreFieldTags    string
-	LDSFirestoreFieldOrderNo string
-	ResourceBasePath         string
-	BucketBasePath           string
-	MockFlag                 bool
+	CDRestPort              string
+	CDProject               string
+	CDBucket                string
+	CDFirestoreDatabase     string
+	CDFirestoreCollection   string
+	CDFirestoreFieldPath    string
+	CDFirestoreFieldName    string
+	CDFirestoreFieldSize    string
+	CDFirestoreFieldTags    string
+	CDFirestoreFieldOrderNo string
+	ResourceBasePath        string
+	BucketBasePath          string
+	MockFlag                bool
 }
 
 // Config is the global configuration parsed from environment variables.
@@ -46,21 +47,22 @@ func init() {
 	if mockFlag {
 		log.Println("enable mock mode!")
 	}
-	resourcePath := os.Getenv("LDS_RESOURCE_PATH")
+	resourcePath := os.Getenv("CD_RESOURCE_PATH")
 	bucketBasePath := strings.TrimLeft(resourcePath, "/")
 	resourceBasePath := resourcePath[0 : len(resourcePath)-len(bucketBasePath)]
 	bucketBasePath = strings.TrimRight(bucketBasePath, "/") + "/" // Make sure the path end with "/".
 
 	Config = config{
-		LDSRestPort:              getEnv("LDS_REST_PORT", "8000"),
-		LDSProject:               getEnv("LDS_PROJECT", ""),
-		LDSBucket:                getEnv("LDS_BUCKET", "lds_data"),
-		LDSFirestore:             getEnv("LDS_FIRESTORE", "fileMetadata"),
-		LDSFirestoreFieldPath:    getEnv("LDS_FIRESTORE_FIELD_PATH", "path"),
-		LDSFirestoreFieldName:    getEnv("LDS_FIRESTORE_FIELD_NAME", "name"),
-		LDSFirestoreFieldSize:    getEnv("LDS_FIRESTORE_FIELD_SIZE", "size"),
-		LDSFirestoreFieldTags:    getEnv("LDS_FIRESTORE_FIELD_TAGS", "tags"),
-		LDSFirestoreFieldOrderNo: getEnv("LDS_FIRESTORE_FIELD_ORDER_NO", "orderNo"),
+		CDRestPort:              getEnv("CD_REST_PORT", "8000"),
+		CDProject:               getEnv("CD_PROJECT", ""),
+		CDBucket:                getEnv("CD_BUCKET", "cd_data"),
+		CDFirestoreCollection:   getEnv("CD_FIRESTORE_COLLECTION", "fileMetadata"),
+		CDFirestoreDatabase:     getEnv("CD_FIRESTORE_DATABASE", "(default)"),
+		CDFirestoreFieldPath:    getEnv("CD_FIRESTORE_FIELD_PATH", "path"),
+		CDFirestoreFieldName:    getEnv("CD_FIRESTORE_FIELD_NAME", "name"),
+		CDFirestoreFieldSize:    getEnv("CD_FIRESTORE_FIELD_SIZE", "size"),
+		CDFirestoreFieldTags:    getEnv("CD_FIRESTORE_FIELD_TAGS", "tags"),
+		CDFirestoreFieldOrderNo: getEnv("CD_FIRESTORE_FIELD_ORDER_NO", "orderNo"),
 
 		ResourceBasePath: resourceBasePath,
 		BucketBasePath:   bucketBasePath,

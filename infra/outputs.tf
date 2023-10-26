@@ -34,14 +34,14 @@ output "bucket_name" {
   value       = module.storage.bucket_name
 }
 
-output "lds_resource_path" {
+output "cd_resource_path" {
   description = "Resource path"
   value       = "/${local.resource_path}"
 }
 
-output "lds_firestore" {
+output "cd_firestore" {
   description = "Firestore resource path"
-  value       = local.lds_firestore
+  value       = local.cd_firestore
 }
 
 output "lb_external_ip" {
@@ -67,4 +67,8 @@ output "backend_service_name" {
 output "cluster_info" {
   description = "The cluster information"
   value       = module.kubernetes.cluster_info
+}
+output "db_name" {
+  description = "Firestore database name"
+  value       = module.firestore.db_name
 }

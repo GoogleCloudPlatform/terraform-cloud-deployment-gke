@@ -24,5 +24,5 @@ region: ${REGION}
 
 k8s_service_account_name: ${K8S_SERVICE_ACCOUNT_NAME}
 
-lds_initialization_bucket_name: 'jss-resources'
-lds_initialization_archive_file_name: 'initialization.tar.gz'
+cd_initialization_bucket_name: 'jss-resources'
+cd_initialization_archive_file_name: 'initialization.tar.gz'

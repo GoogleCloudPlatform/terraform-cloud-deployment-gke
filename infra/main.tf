@@ -47,9 +47,10 @@ data "google_client_config" "default" {
 }
 
 locals {
-  resource_path = "resource"
+  resource_path     = "resource"
+  firestore_db_name = "cloud-deployment-gke-${random_id.random_code.hex}"
   collection_fields = {
-    "${var.firestore_collection_id}-golang" = [
+    (var.firestore_collection_id) = [
       {
         field_path   = "tags"
         array_config = "CONTAINS"
@@ -60,7 +61,7 @@ locals {
       },
     ]
   }
-  lds_firestore            = [for key, value in local.collection_fields : key][0]
+  cd_firestore             = [for key, value in local.collection_fields : key][0]
   namespace                = "cloud-deployment"
   k8s_service_account_name = "cloud-deployment"
   base_entries = [
@@ -105,8 +106,12 @@ module "firestore" {
   source = "./modules/firestore"
 
   project_id        = data.google_project.project.project_id
-  init              = var.init
   collection_fields = local.collection_fields
+  firestore_db_name = local.firestore_db_name
+}
+
+resource "random_id" "random_code" {
+  byte_length = 4
 }
 
 module "kubernetes" {

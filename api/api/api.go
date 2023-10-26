@@ -52,7 +52,7 @@ func Reset(c *gin.Context) {
 	log.Println("start to reset server")
 	ctx := context.Background()
 
-	dbClient, err := firestore.Service.NewClient(ctx)
+	dbClient, err := firestore.Service.NewClientWithDatabase(ctx)
 	if err != nil {
 		ResponseServerError(c, err)
 		return

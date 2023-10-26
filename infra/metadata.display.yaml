@@ -53,8 +53,6 @@ spec:
         region:
           name: region
           title: Region
-          invisible: false
         zones:
           name: zones
           title: Zones
-          invisible: false
