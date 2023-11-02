@@ -31,8 +31,9 @@ spec:
     deploymentDuration:
       configurationSecs: 60
       deploymentSecs: 600
+    icon: https://www.gstatic.com/pantheon/images/solutions/cloud_deployment_gke_icon.png
     costEstimate:
-      description: $6 per day
+      description: "$140 a month"
       url: https://cloud.google.com/kubernetes-engine/pricing#autopilot_mode
     cloudProducts:
       - productId: search_KUBERNETES_SECTION
