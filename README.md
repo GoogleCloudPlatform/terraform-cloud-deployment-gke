@@ -10,7 +10,7 @@ The resources/services/activations/deletions that this app will create/trigger a
 - Cloud Load Balancing
 - Cloud Storage
 - Cloud CDN
-- Firestore!
+- Firestore
 - IAM
 
 ### PreDeploy
