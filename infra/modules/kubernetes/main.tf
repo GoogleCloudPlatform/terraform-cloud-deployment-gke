@@ -24,6 +24,7 @@ resource "google_container_cluster" "control_plane" {
   ip_allocation_policy {
   }
   resource_labels = var.labels
+  deletion_protection = false
 }
 
 resource "google_service_account" "gcp" {
