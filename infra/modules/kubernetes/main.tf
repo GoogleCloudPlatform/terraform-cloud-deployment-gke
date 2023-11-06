@@ -23,7 +23,7 @@ resource "google_container_cluster" "control_plane" {
   enable_autopilot = true
   ip_allocation_policy {
   }
-  resource_labels = var.labels
+  resource_labels     = var.labels
   deletion_protection = false
 }
 
