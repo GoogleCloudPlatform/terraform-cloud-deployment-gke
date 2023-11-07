@@ -50,4 +50,5 @@ resource "helm_release" "manifest" {
       value = secret_entry.value.value
     }
   }
+  timeout = 600
 }
