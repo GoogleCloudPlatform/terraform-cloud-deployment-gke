@@ -50,5 +50,7 @@ resource "helm_release" "manifest" {
       value = secret_entry.value.value
     }
   }
-  timeout = 1200
+  namespace        = var.namespace
+  create_namespace = true
+  timeout          = 1200
 }

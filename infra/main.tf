@@ -141,6 +141,7 @@ module "base_helm" {
   source = "./modules/helm"
 
   chart_folder_name = "base"
+  namespace         = local.namespace
   entries = concat(local.base_entries,
     [
       {
