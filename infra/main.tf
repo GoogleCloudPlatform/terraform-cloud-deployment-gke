@@ -149,6 +149,7 @@ module "base_helm" {
       },
     ]
   )
+  namespace = local.namespace
 }
 
 module "load_balancer" {
