@@ -20,6 +20,13 @@ resource "google_compute_network" "primary" {
   auto_create_subnetworks = true
 }
 
+resource "time_sleep" "wait_after_destroying_clusters_and_before_destroying_vpc_network" {
+  destroy_duration = "360s"
+  depends_on = [
+    google_compute_network.primary
+  ]
+}
+
 resource "google_compute_firewall" "cloud_deployment" {
   name      = "cloud-deployment-gke-golang-health-check"
   network   = google_compute_network.primary.name
