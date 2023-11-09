@@ -149,8 +149,8 @@ module "base_helm" {
       },
     ]
   )
-  namespace = local.namespace
-  # Should this have a dependency instead?
+  namespace  = local.namespace
+  depends_on = [module.networking]
 }
 
 module "load_balancer" {
