@@ -15,7 +15,7 @@
  */
 
 resource "google_compute_network" "primary" {
-  name                    = "cloud-deployment-gke-golang"
+  name                    = "cloud-deployment-gke-golang-net"
   project                 = var.project_id
   auto_create_subnetworks = true
 }

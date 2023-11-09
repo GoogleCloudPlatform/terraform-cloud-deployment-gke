@@ -37,7 +37,7 @@ resource "google_compute_backend_bucket" "cdn" {
 
 resource "google_compute_health_check" "cloud_deployment" {
   project = var.project_id
-  name    = "cloud-deployment-gke-golang"
+  name    = "cloud-deployment-gke-golang-health"
   http_health_check {
     port_specification = "USE_SERVING_PORT"
   }
