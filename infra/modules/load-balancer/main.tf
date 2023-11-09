@@ -38,7 +38,6 @@ resource "google_compute_backend_bucket" "cdn" {
 resource "google_compute_network_endpoint_group" "neg" {
   name         = "cloud-deployment-gke-golang-neg"
   network      = var.network_id
-  default_port = "80"
   zone         = var.zone
 }
 
