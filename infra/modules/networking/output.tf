@@ -18,3 +18,8 @@ output "vpc_network_self_link" {
   description = "VPC network"
   value       = google_compute_network.primary.self_link
 }
+
+output "network_id" {
+  description = "VPC Network ID"
+  value       = google_compute_network.primary.id
+}

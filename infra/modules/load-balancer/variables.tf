@@ -33,3 +33,8 @@ variable "labels" {
   description = "A map of key/value label pairs to assign to the bucket."
   type        = map(string)
 }
+
+variable "network_id" {
+  description = "VPC network ID"
+  type        = string
+}
