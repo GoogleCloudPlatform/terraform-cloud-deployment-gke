@@ -16,7 +16,7 @@
 # GKE cluster configs
 PROJECT_ID="$(gcloud config get-value project | tail -1)"
 GCR_PROJECT_ID="hsa-public"
-CLUSTER_NAME="cloud-deployment-gke-golang"
+CLUSTER_NAME="cloud-deployment-gke-golang-cluster"
 REGION="us-west1"
 
 # Deployment configs

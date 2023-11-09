@@ -120,7 +120,7 @@ module "kubernetes" {
   ]
   source = "./modules/kubernetes"
 
-  cluster_name                    = "cloud-deployment-gke-golang"
+  cluster_name                    = "cloud-deployment-gke-golang-cluster"
   region                          = var.region
   zones                           = var.zones
   network_self_link               = module.networking.vpc_network_self_link
@@ -150,6 +150,7 @@ module "base_helm" {
     ]
   )
   namespace = local.namespace
+  # Should this have a dependency instead?
 }
 
 module "load_balancer" {

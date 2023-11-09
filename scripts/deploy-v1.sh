@@ -17,7 +17,7 @@
 # GKE cluster configs
 PROJECT_ID="$(gcloud config get-value project | tail -1)"
 PROJECT_NUMBER=$(gcloud projects list --filter PROJECT_ID="${PROJECT_ID}" --format="value(projectNumber)")
-CLUSTER_NAME="cloud-deployment-gke-golang"
+CLUSTER_NAME="cloud-deployment-gke-golang-cluster"
 REGION="us-west1"
 ZONE="us-west1-a"
 
