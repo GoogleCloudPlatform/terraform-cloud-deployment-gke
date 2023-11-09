@@ -59,7 +59,7 @@ helm install \
 echo -e "\n--------------------------------------------------------- "
 
 # Procedure to connect k8s pod to loadbalancer
-GOOGLE_CLOUD_NEG="$(gcloud compute network-endpoint-groups describe cloud-deployment-gke-golang \
+GOOGLE_CLOUD_NEG="$(gcloud compute network-endpoint-groups describe cloud-deployment-gke-golang-neg \
     --project="${PROJECT_ID}" \
     --zone="${ZONE}" \
     --format="value(name)")"
