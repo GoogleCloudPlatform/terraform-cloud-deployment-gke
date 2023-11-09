@@ -159,5 +159,5 @@ module "load_balancer" {
   bucket_name   = module.storage.bucket_name
   resource_path = local.resource_path
   labels        = var.labels
-  depends_on = [ module.module.networking ]
+  depends_on = [ module.networking ]
 }
