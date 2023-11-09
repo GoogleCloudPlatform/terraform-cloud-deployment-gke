@@ -45,7 +45,7 @@ resource "google_compute_health_check" "cloud_deployment" {
 
 resource "google_compute_backend_service" "cloud_deployment" {
   project               = var.project_id
-  name                  = "cloud-deployment-gke-golang"
+  name                  = "cloud-deployment-gke-golang-srv"
   load_balancing_scheme = "EXTERNAL"
   health_checks = [
     google_compute_health_check.cloud_deployment.self_link,
