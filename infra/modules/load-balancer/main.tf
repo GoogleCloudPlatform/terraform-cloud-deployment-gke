@@ -35,17 +35,25 @@ resource "google_compute_backend_bucket" "cdn" {
   ]
 }
 
-resource "google_compute_network_endpoint_group" "neg" {
-  name         = "cloud-deployment-gke-golang-neg"
-  network      = var.network_id
-  zone         = var.zone
-}
-
 resource "google_compute_health_check" "cloud_deployment" {
   project = var.project_id
   name    = "cloud-deployment-gke-golang-health"
   http_health_check {
     port_specification = "USE_SERVING_PORT"
+  }
+}
+
+resource "google_compute_firewall" "cloud_deployment" {
+  name      = "cloud-deployment-gke-golang-health-check"
+  network   = "default"
+  direction = "INGRESS"
+  source_ranges = [
+    "130.211.0.0/22", //health check ip
+    "35.191.0.0/16"   //health check ip
+  ]
+  allow {
+    protocol = "tcp"
+    ports    = var.health_check_allow_ports
   }
 }
 

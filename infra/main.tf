@@ -93,14 +93,6 @@ module "storage" {
   name       = "cloud-deployment-gke-golang-resource-${data.google_project.project.number}"
 }
 
-module "networking" {
-  source = "./modules/networking"
-
-  project_id = data.google_project.project.project_id
-  health_check_allow_ports = [
-    80,
-  ]
-}
 
 module "firestore" {
   source = "./modules/firestore"
@@ -120,10 +112,10 @@ module "kubernetes" {
   ]
   source = "./modules/kubernetes"
 
-  cluster_name                    = "cloud-deployment-gke-golang-cluster"
-  region                          = var.region
-  zones                           = [var.zone]
-  network_self_link               = module.networking.vpc_network_self_link
+  cluster_name = "cloud-deployment-gke-golang-cluster"
+  region       = var.region
+  zones        = [var.zone]
+  # network_self_link               = module.networking.vpc_network_self_link
   project_id                      = data.google_project.project.project_id
   google_cloud_service_account_id = "cloud-deployment-gke-golang"
   google_cloud_service_account_iam_roles = [
@@ -149,8 +141,7 @@ module "base_helm" {
       },
     ]
   )
-  namespace  = local.namespace
-  depends_on = [module.networking]
+  namespace = local.namespace
 }
 
 module "load_balancer" {
@@ -160,6 +151,7 @@ module "load_balancer" {
   bucket_name   = module.storage.bucket_name
   resource_path = local.resource_path
   labels        = var.labels
-  network_id    = module.networking.network_id
-  zone          = var.zone
+  health_check_allow_ports = [
+    80,
+  ]
 }

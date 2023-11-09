@@ -34,12 +34,7 @@ variable "labels" {
   type        = map(string)
 }
 
-variable "network_id" {
-  description = "VPC network ID"
-  type        = string
-}
-
-variable "zone" {
-  description = "Zone for the network endpodint group"
-  type        = string
+variable "health_check_allow_ports" {
+  description = "The ports to allow for health check."
+  type        = list(number)
 }
