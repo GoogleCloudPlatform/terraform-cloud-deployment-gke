@@ -64,7 +64,7 @@ GOOGLE_CLOUD_NEG="$(gcloud compute network-endpoint-groups describe cloud-deploy
     --zone="${ZONE}" \
     --format="value(name)")"
 
-gcloud compute backend-services add-backend cloud-deployment-gke-golang \
+gcloud compute backend-services add-backend cloud-deployment-gke-golang-srv \
     --project="${PROJECT_ID}" \
     --global \
     --network-endpoint-group="${GOOGLE_CLOUD_NEG}" \
