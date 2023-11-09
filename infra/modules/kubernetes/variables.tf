@@ -25,7 +25,7 @@ variable "region" {
 }
 
 variable "zones" {
-  description = "The zones to host the k8s cluster"
+  description = "The zone to host the k8s cluster"
   type        = list(string)
 }
 

@@ -122,7 +122,7 @@ module "kubernetes" {
 
   cluster_name                    = "cloud-deployment-gke-golang-cluster"
   region                          = var.region
-  zones                           = var.zones
+  zones                           = [var.zone]
   network_self_link               = module.networking.vpc_network_self_link
   project_id                      = data.google_project.project.project_id
   google_cloud_service_account_id = "cloud-deployment-gke-golang"
@@ -161,4 +161,5 @@ module "load_balancer" {
   resource_path = local.resource_path
   labels        = var.labels
   network_id    = module.networking.network_id
+  zone          = var.zone
 }

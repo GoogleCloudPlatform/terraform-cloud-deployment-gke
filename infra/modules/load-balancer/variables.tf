@@ -38,3 +38,8 @@ variable "network_id" {
   description = "VPC network ID"
   type        = string
 }
+
+variable "zone" {
+  description = "Zone for the network endpodint group"
+  type        = string
+}
