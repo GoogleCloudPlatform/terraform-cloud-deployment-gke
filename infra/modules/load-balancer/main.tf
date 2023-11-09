@@ -76,14 +76,14 @@ resource "google_compute_url_map" "cloud_deployment" {
 
 resource "google_compute_target_http_proxy" "cloud_deployment" {
   project = var.project_id
-  name    = "cloud-deployment-gke-golang"
+  name    = "cloud-deployment-gke-golang-cthp"
   url_map = google_compute_url_map.cloud_deployment.self_link
 }
 
 resource "google_compute_global_forwarding_rule" "cloud_deployment" {
   project    = var.project_id
   labels     = var.labels
-  name       = "cloud-deployment-gke-golang"
+  name       = "cloud-deployment-gke-golang-fr"
   target     = google_compute_target_http_proxy.cloud_deployment.self_link
   ip_address = google_compute_global_address.cloud_deployment.address
   port_range = "80"
@@ -91,7 +91,7 @@ resource "google_compute_global_forwarding_rule" "cloud_deployment" {
 
 resource "google_compute_global_address" "cloud_deployment" {
   project      = var.project_id
-  name         = "cloud-deployment-gke-golang"
+  name         = "cloud-deployment-gke-golang-ga"
   ip_version   = "IPV4"
   address_type = "EXTERNAL"
 }
