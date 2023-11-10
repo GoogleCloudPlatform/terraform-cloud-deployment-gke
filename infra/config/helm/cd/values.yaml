@@ -29,7 +29,7 @@ cd_client_image: 'gcr.io/hsa-public/jss-cd-gke-frontend:blue'
 
 config_maps:
   cd_rest_port: 8000
-  cd_bucket: ${cd_BUCKET}
-  cd_resource_path: ${cd_RESOURCE_PATH}
-  cd_firestore: ${cd_FIRESTORE}
-  cd_firestore_database: ${cd_FIRESTORE_DATABASE}
+  cd_bucket: ${CD_BUCKET}
+  cd_resource_path: ${CD_RESOURCE_PATH}
+  cd_firestore: ${CD_FIRESTORE}
+  cd_firestore_database: ${CD_FIRESTORE_DATABASE}
