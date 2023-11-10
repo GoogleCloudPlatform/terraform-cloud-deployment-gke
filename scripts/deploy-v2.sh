@@ -55,7 +55,7 @@ helm upgrade \
 # Ouput message for successful deployment
 echo -e "\n--------------------------------------------------------- "
 # Get Cloud Load Balancer configs
-FORWARDING_RULE_NAME="cloud-deployment-gke-golang"
+FORWARDING_RULE_NAME="cloud-deployment-gke-golang-cluster"
 FORWARDING_RULE_IP="$(gcloud compute forwarding-rules list --filter="${FORWARDING_RULE_NAME}" --format="value(IP_ADDRESS)")"
 kubectl rollout status deployment "${PROJECT_ID}"-cd-deployment-"${REGION}" -n "${NAMESPACE}"
 echo -e "V2 version was deployed successfully!\nRefresh the home page to observe v1 is replaced by V2 load balancer ip: ${FORWARDING_RULE_IP}"
