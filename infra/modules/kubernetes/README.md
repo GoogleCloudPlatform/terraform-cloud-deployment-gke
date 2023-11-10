@@ -13,7 +13,7 @@
 | labels | A map of key/value label pairs to assign to the resources. | `map(string)` | `{}` | no |
 | project\_id | GCP project ID. | `string` | n/a | yes |
 | region | The region to host the k8s cluster | `string` | n/a | yes |
-| zones | The zone to host the k8s cluster | `list(string)` | n/a | yes |
+| zones | The zones to host the k8s cluster | `list(string)` | n/a | yes |
 
 ## Outputs
 

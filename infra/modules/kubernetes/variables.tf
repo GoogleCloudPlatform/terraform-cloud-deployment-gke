@@ -25,14 +25,9 @@ variable "region" {
 }
 
 variable "zones" {
-  description = "The zone to host the k8s cluster"
+  description = "The zones to host the k8s cluster"
   type        = list(string)
 }
-
-# variable "network_self_link" {
-#   description = "The VPC network self_link to host the k8s cluster"
-#   type        = string
-# }
 
 variable "project_id" {
   description = "GCP project ID."

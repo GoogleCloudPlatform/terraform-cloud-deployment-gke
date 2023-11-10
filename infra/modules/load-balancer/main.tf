@@ -44,7 +44,7 @@ resource "google_compute_health_check" "cloud_deployment" {
 }
 
 resource "google_compute_firewall" "cloud_deployment" {
-  name      = "cloud-deployment-gke-golang-health-check"
+  name      = "cloud-deployment-gke-golang-allow-health-check"
   network   = "default"
   direction = "INGRESS"
   source_ranges = [
