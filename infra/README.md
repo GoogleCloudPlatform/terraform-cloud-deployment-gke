@@ -10,7 +10,7 @@
 | labels | A map of key/value label pairs to assign to the resources. | `map(string)` | <pre>{<br>  "app": "cloud-deployment-gke-golang"<br>}</pre> | no |
 | project\_id | Google Cloud project ID. | `string` | n/a | yes |
 | region | Google cloud region where the resource will be created. | `string` | `"us-west1"` | no |
-| zones | Google cloud zones where the resource will be created. | `list(string)` | <pre>[<br>  "us-west1-a"<br>]</pre> | no |
+| zone | Google cloud zone where the resources will be created. | `string` | `"us-west1-a"` | no |
 
 ## Outputs
 

@@ -52,5 +52,4 @@ resource "helm_release" "manifest" {
   }
   namespace        = var.namespace
   create_namespace = true
-  timeout          = 1200
 }

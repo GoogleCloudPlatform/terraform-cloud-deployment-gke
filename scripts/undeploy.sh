@@ -21,12 +21,12 @@ ZONE="us-west1-a"
 helm delete job
 helm delete cd
 
-GOOGLE_CLOUD_NEG="$(gcloud compute network-endpoint-groups describe cloud-deployment-gke-golang \
+GOOGLE_CLOUD_NEG="$(gcloud compute network-endpoint-groups describe cloud-deployment-gke-golang-neg \
     --project="${PROJECT_ID}" \
     --zone="${ZONE}" \
     --format="value(name)")"
 
-gcloud compute backend-services remove-backend cloud-deployment-gke-golang \
+gcloud compute backend-services remove-backend cloud-deployment-gke-golang-srv \
     --project="${PROJECT_ID}" \
     --global \
     --network-endpoint-group="${GOOGLE_CLOUD_NEG}" \
