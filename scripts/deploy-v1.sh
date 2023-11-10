@@ -17,7 +17,7 @@
 # GKE cluster configs
 PROJECT_ID="$(gcloud config get-value project | tail -1)"
 PROJECT_NUMBER=$(gcloud projects list --filter PROJECT_ID="${PROJECT_ID}" --format="value(projectNumber)")
-CLUSTER_NAME="cloud-deployment-gke-golang"
+CLUSTER_NAME="cloud-deployment-gke-golang-cluster"
 REGION="us-west1"
 ZONE="us-west1-a"
 
@@ -59,12 +59,12 @@ helm install \
 echo -e "\n--------------------------------------------------------- "
 
 # Procedure to connect k8s pod to loadbalancer
-GOOGLE_CLOUD_NEG="$(gcloud compute network-endpoint-groups describe cloud-deployment-gke-golang \
+GOOGLE_CLOUD_NEG="$(gcloud compute network-endpoint-groups describe cloud-deployment-gke-golang-neg \
     --project="${PROJECT_ID}" \
     --zone="${ZONE}" \
     --format="value(name)")"
 
-gcloud compute backend-services add-backend cloud-deployment-gke-golang \
+gcloud compute backend-services add-backend cloud-deployment-gke-golang-srv \
     --project="${PROJECT_ID}" \
     --global \
     --network-endpoint-group="${GOOGLE_CLOUD_NEG}" \
