@@ -28,6 +28,11 @@ variable "entries" {
   default = []
 }
 
+variable "namespace" {
+  description = "Kubernetes namespace for the helm chart"
+  type        = string
+}
+
 variable "secret_entries" {
   description = "custom sensitive values to be merged into values yaml. it would not be exposed in the terraform plan's diff."
   type = list(object({
@@ -35,8 +40,4 @@ variable "secret_entries" {
     value = string
   }))
   default = []
-}
-variable "namespace" {
-  description = "Kubernetes namespace for the helm chart"
-  type        = string
 }
