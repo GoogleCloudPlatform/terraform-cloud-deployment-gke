@@ -41,7 +41,3 @@ variable "secret_entries" {
   }))
   default = []
 }
-variable "namespace" {
-  description = "Kubernetes namespace for the helm chart"
-  type        = string
-}
