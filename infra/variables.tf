@@ -29,10 +29,10 @@ variable "region" {
   default     = "us-west1"
 }
 
-variable "zones" {
-  description = "Google cloud zones where the resource will be created."
-  type        = list(string)
-  default     = ["us-west1-a"]
+variable "zone" {
+  description = "Google cloud zone where the resources will be created."
+  type        = string
+  default     = "us-west1-a"
 }
 
 variable "disable_services_on_destroy" {

@@ -16,7 +16,7 @@
 # GKE cluster configs
 PROJECT_ID="$(gcloud config get-value project | tail -1)"
 GCR_PROJECT_ID="hsa-public"
-CLUSTER_NAME="cloud-deployment-gke-golang"
+CLUSTER_NAME="cloud-deployment-gke-golang-cluster"
 REGION="us-west1"
 
 # Deployment configs
@@ -27,7 +27,7 @@ CD_RESOURCE_PATH="/resource"
 CD_FIRESTORE="fileMetadata-cdn-gke-golang"
 CD_FIRESTORE_DATABASE=$(gcloud firestore databases list \
   --format="value(name)" \
-  --filter="name:large-data-sharing" \
+  --filter="name:cloud-deployment" \
   --limit=1 \
   --sort-by=~creationTimestamp \
   | awk -F/ '{print $NF}')

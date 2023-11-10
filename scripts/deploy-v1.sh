@@ -29,7 +29,7 @@ CD_RESOURCE_PATH="/resource"
 CD_FIRESTORE="fileMetadata-cdn-gke-golang"
 CD_FIRESTORE_DATABASE=$(gcloud firestore databases list \
   --format="value(name)" \
-  --filter="name:large-data-sharing" \
+  --filter="name:cloud-deployment" \
   --limit=1 \
   --sort-by=~creationTimestamp \
   | awk -F/ '{print $NF}')
@@ -75,7 +75,7 @@ gcloud compute backend-services add-backend cloud-deployment-gke-golang-srv \
 # Ouput message for successful deployment
 echo -e "\n--------------------------------------------------------- "
 # Get Cloud Load Balancer configs
-FORWARDING_RULE_NAME="cloud-deployment-gke-golang"
+FORWARDING_RULE_NAME="cloud-deployment-gke-golang-fr"
 FORWARDING_RULE_IP="$(gcloud compute forwarding-rules list --filter="${FORWARDING_RULE_NAME}" --format="value(IP_ADDRESS)")"
 kubectl rollout status deployment "${PROJECT_ID}"-cd-deployment-"${REGION}" -n "${NAMESPACE}"
 echo -e "V1 version was deployed successfully!\naccess the web UI home page through the external load balancer IP: http://${FORWARDING_RULE_IP}/"
