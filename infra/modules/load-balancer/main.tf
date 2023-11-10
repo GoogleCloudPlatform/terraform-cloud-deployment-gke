@@ -37,15 +37,29 @@ resource "google_compute_backend_bucket" "cdn" {
 
 resource "google_compute_health_check" "cloud_deployment" {
   project = var.project_id
-  name    = "cloud-deployment-gke-golang"
+  name    = "cloud-deployment-gke-golang-health"
   http_health_check {
     port_specification = "USE_SERVING_PORT"
   }
 }
 
+resource "google_compute_firewall" "cloud_deployment" {
+  name      = "cloud-deployment-gke-golang-allow-health-check"
+  network   = "default"
+  direction = "INGRESS"
+  source_ranges = [
+    "130.211.0.0/22", //health check ip
+    "35.191.0.0/16"   //health check ip
+  ]
+  allow {
+    protocol = "tcp"
+    ports    = var.health_check_allow_ports
+  }
+}
+
 resource "google_compute_backend_service" "cloud_deployment" {
   project               = var.project_id
-  name                  = "cloud-deployment-gke-golang"
+  name                  = "cloud-deployment-gke-golang-srv"
   load_balancing_scheme = "EXTERNAL"
   health_checks = [
     google_compute_health_check.cloud_deployment.self_link,
@@ -76,14 +90,14 @@ resource "google_compute_url_map" "cloud_deployment" {
 
 resource "google_compute_target_http_proxy" "cloud_deployment" {
   project = var.project_id
-  name    = "cloud-deployment-gke-golang"
+  name    = "cloud-deployment-gke-golang-cthp"
   url_map = google_compute_url_map.cloud_deployment.self_link
 }
 
 resource "google_compute_global_forwarding_rule" "cloud_deployment" {
   project    = var.project_id
   labels     = var.labels
-  name       = "cloud-deployment-gke-golang"
+  name       = "cloud-deployment-gke-golang-fr"
   target     = google_compute_target_http_proxy.cloud_deployment.self_link
   ip_address = google_compute_global_address.cloud_deployment.address
   port_range = "80"
@@ -91,7 +105,7 @@ resource "google_compute_global_forwarding_rule" "cloud_deployment" {
 
 resource "google_compute_global_address" "cloud_deployment" {
   project      = var.project_id
-  name         = "cloud-deployment-gke-golang"
+  name         = "cloud-deployment-gke-golang-ga"
   ip_version   = "IPV4"
   address_type = "EXTERNAL"
 }

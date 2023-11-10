@@ -50,4 +50,6 @@ resource "helm_release" "manifest" {
       value = secret_entry.value.value
     }
   }
+  namespace        = var.namespace
+  create_namespace = true
 }
