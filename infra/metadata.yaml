@@ -20,17 +20,20 @@ metadata:
     config.kubernetes.io/local-config: "true"
 spec:
   info:
-    title: cloud-deployment-gke
+    title: cloud-deployment-on-gke
     source:
       repo: https://github.com/GoogleCloudPlatform/terraform-cloud-deployment-gke.git
       sourceType: git
       dir: /infra
-    description: {}
+    description:
+      tagline: Deploy a live feature change on a Go, using rolling updates and kubectl.
+      detailed: This solution showcases rolling deployments in GKE using kubectl and helm to update a live service.
     deploymentDuration:
-      configurationSecs: "60"
-      deploymentSecs: "600"
+      configurationSecs: 60
+      deploymentSecs: 600
+    icon: https://www.gstatic.com/pantheon/images/solutions/cloud_deployment_gke_icon_v1.png
     costEstimate:
-      description: $6 per day
+      description: "cost of this solution is $140"
       url: https://cloud.google.com/kubernetes-engine/pricing#autopilot_mode
     cloudProducts:
       - productId: search_KUBERNETES_SECTION
@@ -39,6 +42,7 @@ spec:
         label: Compute Engine
       - productId: FIRESTORE_SECTION
         label: Firestore
+    singleDeployment: true
   content:
     architecture:
       diagramUrl: https://www.gstatic.com/pantheon/images/solutions/cloud_deployment_gke_architecture.png

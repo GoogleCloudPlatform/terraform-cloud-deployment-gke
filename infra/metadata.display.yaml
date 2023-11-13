@@ -56,3 +56,5 @@ spec:
         zones:
           name: zones
           title: Zones
+    runtime:
+      outputs:
