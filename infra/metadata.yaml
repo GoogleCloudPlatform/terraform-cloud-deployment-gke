@@ -26,7 +26,7 @@ spec:
       sourceType: git
       dir: /infra
     description:
-      tagline: Deploy a live feature change on a Go, using rolling updates and kubectl.
+      tagline: Deploy a live feature change on a Go application, using rolling updates and kubectl.
       detailed: This solution showcases rolling deployments in GKE using kubectl and helm to update a live service.
     deploymentDuration:
       configurationSecs: 60
