@@ -17,7 +17,7 @@
 PROJECT_ID="$(gcloud config get-value project | tail -1)"
 GCR_PROJECT_ID="hsa-public"
 CLUSTER_NAME="cloud-deployment-gke-golang-cluster"
-REGION="us-west1"
+REGION=$(gcloud container clusters list --filter="${CLUSTER_NAME}" --format="value(LOCATION)")
 
 # Deployment configs
 NAMESPACE="cloud-deployment"
