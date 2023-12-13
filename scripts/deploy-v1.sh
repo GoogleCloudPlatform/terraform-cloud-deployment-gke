@@ -18,8 +18,8 @@
 PROJECT_ID="$(gcloud config get-value project | tail -1)"
 PROJECT_NUMBER=$(gcloud projects list --filter PROJECT_ID="${PROJECT_ID}" --format="value(projectNumber)")
 CLUSTER_NAME="cloud-deployment-gke-golang-cluster"
-REGION="us-west1"
-ZONE="us-west1-a"
+REGION=$(gcloud container clusters list --filter="${CLUSTER_NAME}" --format="value(LOCATION)")
+ZONE=$(gcloud container clusters describe "${CLUSTER_NAME}" --region="${REGION}" --format="value(locations)")
 
 # Deployment configs
 NAMESPACE="cloud-deployment"
