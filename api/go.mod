@@ -9,7 +9,7 @@ require (
 	github.com/gin-gonic/gin v1.9.1
 	github.com/google/uuid v1.6.0
 	github.com/stretchr/testify v1.9.0
-	golang.org/x/exp v0.0.0-20240314144324-c7f7c6466f7f
+	golang.org/x/exp v0.0.0-20240318143956-a85f2c67cd81
 	golang.org/x/image v0.15.0
 	google.golang.org/api v0.170.0
 	google.golang.org/grpc v1.62.1
