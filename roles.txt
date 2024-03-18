@@ -1,0 +1,7 @@
+roles/config.agent
+roles/datastore.owner
+roles/editor
+roles/iam.serviceAccountAdmin
+roles/resourcemanager.projectIamAdmin
+roles/serviceusage.serviceUsageAdmin
+roles/storage.admin
