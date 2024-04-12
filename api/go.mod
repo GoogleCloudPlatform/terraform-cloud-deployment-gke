@@ -4,15 +4,15 @@ go 1.20
 
 require (
 	cloud.google.com/go/firestore v1.15.0
-	cloud.google.com/go/storage v1.40.0
+	cloud.google.com/go/storage v1.39.1
 	github.com/disintegration/imaging v1.6.2
 	github.com/gin-gonic/gin v1.9.1
 	github.com/google/uuid v1.6.0
 	github.com/stretchr/testify v1.9.0
-	golang.org/x/exp v0.0.0-20240409090435-93d18d7e34b8
+	golang.org/x/exp v0.0.0-20240318143956-a85f2c67cd81
 	golang.org/x/image v0.15.0
-	google.golang.org/api v0.172.0
-	google.golang.org/grpc v1.63.0
+	google.golang.org/api v0.170.0
+	google.golang.org/grpc v1.62.1
 )
 
 require (
