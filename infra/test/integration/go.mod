@@ -2,7 +2,7 @@ module github.com/HSA-Integration/terraform-cloud-deployment-gke/infra/test/inte
 
 go 1.21
 
-toolchain go1.21.6
+toolchain go1.21.9
 
 require (
 	github.com/GoogleCloudPlatform/cloud-foundation-toolkit/infra/blueprint-test v0.14.0
