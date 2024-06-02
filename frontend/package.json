@@ -44,5 +44,5 @@
     "@angular/common": "^15.2.0",
     "@angular/core": "^15.2.0",
     "@angular/compiler-cli": "^15.2.0"
-  }  
+  }
 }
