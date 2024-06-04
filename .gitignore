@@ -40,7 +40,6 @@ replay_pid*
 
 # NodeJS files
 node_modules/
-frontend/package-lock.json
 .npm
 frontend/.angular/
 
