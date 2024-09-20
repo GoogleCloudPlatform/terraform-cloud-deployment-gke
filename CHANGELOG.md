@@ -1,5 +1,18 @@
 # Changelog
 
+## [0.2.1](https://github.com/GoogleCloudPlatform/terraform-cloud-deployment-gke/compare/v0.2.0...v0.2.1) (2024-09-20)
+
+
+### Bug Fixes
+
+* **deps:** Update go modules ([#79](https://github.com/GoogleCloudPlatform/terraform-cloud-deployment-gke/issues/79)) ([9fcdfcd](https://github.com/GoogleCloudPlatform/terraform-cloud-deployment-gke/commit/9fcdfcd92264fed082f8d61280037db8d48256dc))
+* **deps:** update go modules and/or dev-tools ([#76](https://github.com/GoogleCloudPlatform/terraform-cloud-deployment-gke/issues/76)) ([22afd04](https://github.com/GoogleCloudPlatform/terraform-cloud-deployment-gke/commit/22afd04be695c11692ec6ec089715a8ced4420e6))
+* **deps:** update go modules and/or dev-tools ([#77](https://github.com/GoogleCloudPlatform/terraform-cloud-deployment-gke/issues/77)) ([7da568a](https://github.com/GoogleCloudPlatform/terraform-cloud-deployment-gke/commit/7da568a6f492703571816ee5859c736dcfc4e347))
+* **deps:** update module golang.org/x/image to v0.18.0 [security] ([#89](https://github.com/GoogleCloudPlatform/terraform-cloud-deployment-gke/issues/89)) ([0619726](https://github.com/GoogleCloudPlatform/terraform-cloud-deployment-gke/commit/0619726dcaa2ccb3a9607c17e790a67e19ca9d80))
+* **deps:** update module google.golang.org/api to v0.176.0 ([#69](https://github.com/GoogleCloudPlatform/terraform-cloud-deployment-gke/issues/69)) ([ccf117f](https://github.com/GoogleCloudPlatform/terraform-cloud-deployment-gke/commit/ccf117f8b8cf83d0aac52a6cdba69c5cc5ebb704))
+* **deps:** update module google.golang.org/api to v0.176.1 ([#73](https://github.com/GoogleCloudPlatform/terraform-cloud-deployment-gke/issues/73)) ([26b2fba](https://github.com/GoogleCloudPlatform/terraform-cloud-deployment-gke/commit/26b2fba1d028edb281626a4b5d0bc30c85682585))
+* **deps:** update module google.golang.org/grpc to v1.64.1 [security] ([#91](https://github.com/GoogleCloudPlatform/terraform-cloud-deployment-gke/issues/91)) ([ea8103a](https://github.com/GoogleCloudPlatform/terraform-cloud-deployment-gke/commit/ea8103a0d1ddd169f24fa12c0e6250c4352cf9a6))
+
 ## [0.2.0](https://github.com/GoogleCloudPlatform/terraform-cloud-deployment-gke/compare/v0.1.0...v0.2.0) (2024-04-18)
 
 
