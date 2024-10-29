@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-FROM node:20-bullseye-slim as builder
+FROM node:22-bullseye-slim as builder
 
 WORKDIR /usr/app
 
